@@ -12,14 +12,20 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../../frontend/public')));
 
-// Подключение к PostgreSQL (используем переменные окружения)
-const dbConfig = {
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'postgres',
-    password: process.env.DB_PASSWORD || 'Alexey_25052006',
-    database: process.env.DB_NAME || 'kitchen_shop',
-    port: process.env.DB_PORT || 5432
-};
+// Подключение к PostgreSQL (используем DATABASE_URL если доступен, иначе отдельные переменные)
+let dbConfig;
+if (process.env.DATABASE_URL) {
+    dbConfig = { connectionString: process.env.DATABASE_URL };
+    console.log('🔌 Using DATABASE_URL for Postgres connection');
+} else {
+    dbConfig = {
+        host: process.env.DB_HOST || 'localhost',
+        user: process.env.DB_USER || 'postgres',
+        password: process.env.DB_PASSWORD || 'Alexey_25052006',
+        database: process.env.DB_NAME || 'kitchen_shop',
+        port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 5432
+    };
+}
 
 let db;
 
@@ -27,6 +33,11 @@ let db;
 app.use((req, res, next) => {
     console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
     next();
+});
+
+// Простая проверка состояния сервиса
+app.get('/health', (req, res) => {
+    res.json({ status: 'ok', db: db ? 'connected' : 'disconnected' });
 });
 
 // Подключение к базе данных
@@ -41,7 +52,8 @@ async function connectDB() {
         console.log(`📦 В базе данных ${rows[0].count} товаров`);
     } catch (error) {
         console.error('❌ Ошибка подключения к базе данных:', error);
-        process.exit(1);
+        console.error('Продолжаю запуск сервера без подключения к БД (режим деградации).');
+        db = null;
     }
 }
 
