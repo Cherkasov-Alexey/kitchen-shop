@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Личный кабинет — SmartCook</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/profile.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="header-left">
+        <div class="logo-block">
+            <img src="images/logotip.png" alt="SmartCook logo" class="logo-img">
+            <div class="logo-text">SmartCook</div>
+        </div>
+
+        <nav class="nav">
+            <a href="index.html">Главная</a>
+            <a href="catalog.html">Каталог товаров</a>
+            <a href="sales.html">Акции</a>
+            <a href="favorites.html">Избранное</a>
+            <a href="contacts.html">Контакты</a>
+        </nav>
+    </div>
+
+    <div class="header-right">
+        <div class="auth-actions user">
+            <a href="profile.html" class="auth-btn" id="profile-name">Профиль</a>
+            <a href="#" class="auth-btn logout">Выйти</a>
+        </div>
+        
+        <a href="cart.html" class="cart-icon">
+            🛒
+            <span id="cart-count" class="cart-count" style="display: none;">0</span>
+        </a>
+    </div>
+</header>
+
+<main class="profile-container">
+    <h1>Личный кабинет</h1>
+
+    <div class="profile-card">
+        <p><strong>Имя:</strong> <span id="user-name">Загрузка...</span></p>
+        <p><strong>Email:</strong> <span id="user-email">Загрузка...</span></p>
+        <p><strong>Дата регистрации:</strong> <span id="user-reg-date">Загрузка...</span></p>
+
+        <button class="logout-btn" id="logout-btn">Выйти</button>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-brand">
+            <h3>SmartCook</h3>
+            <p>Лучшая техника для современной кухни</p>
+        </div>
+
+        <div class="footer-links">
+            <h4>Помощь</h4>
+            <a href="help.html#delivery">Доставка и оплата</a>
+            <a href="help.html#warranty">Гарантия и возврат</a>
+            <a href="help.html#reviews">Отзывы</a>
+        </div>
+
+        <div class="footer-links">
+            <h4>Категории</h4>
+            <a href="catalog.html?category=2">Кофемашины</a>
+            <a href="catalog.html?category=1">Холодильники</a>
+            <a href="catalog.html?category=3">Посудомоечные машины</a>
+        </div>
+
+        <div class="footer-contacts">
+            <h4>Контакты</h4>
+            <p>📍 г. Москва, ул. Технологическая, 15</p>
+            <p>📞 +7 (900) 123-45-67</p>
+            <p>✉️ info@smartcook.ru</p>
+        </div>
+    </div>
+
+    <p class="footer-copy">© 2025 SmartCook. Все права защищены.</p>
+</footer>
+
+<script src="js/api-v14.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/main.js"></script>
+<script>
+// Динамическая загрузка данных пользователя
+document.addEventListener('DOMContentLoaded', function() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    
+    if (currentUser) {
+        // Заполняем данные
+        document.getElementById('user-name').textContent = currentUser.user_name || 'Не указано';
+        document.getElementById('user-email').textContent = currentUser.email || 'Не указано';
+        document.getElementById('user-reg-date').textContent = currentUser.created_at ? 
+            new Date(currentUser.created_at).toLocaleDateString('ru-RU') : 'Неизвестно';
+            
+        // Обновляем имя в шапке
+        const profileName = document.getElementById('profile-name');
+        if (profileName) {
+            profileName.textContent = currentUser.user_name;
+        }
+    } else {
+        // Если пользователь не авторизован, перенаправляем на вход
+        window.location.href = 'login.html';
+    }
+    
+    // Обработка кнопки выхода
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        });
+    }
+});
+</script>
+
+</body>
+</html>

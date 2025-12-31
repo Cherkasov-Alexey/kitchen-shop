@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title id="page-title">Товар — SmartCook</title>
+<link rel="stylesheet" href="css/style.css?v=14">
+</head>
+<body>
+
+<header class="header">
+    <div class="header-left">
+        <div class="logo-block">
+            <img src="images/logotip.png" alt="SmartCook logo" class="logo-img">
+            <div class="logo-text">SmartCook</div>
+        </div>
+
+        <nav class="nav">
+            <a href="index.html">Главная</a>
+            <a href="catalog.html">Каталог товаров</a>
+            <a href="sales.html">Акции</a>
+            <a href="favorites.html">Избранное</a>
+            <a href="contacts.html">Контакты</a>
+        </nav>
+    </div>
+
+    <div class="header-right">
+        <div class="auth-actions guest">
+            <a href="login.html" class="auth-btn">Вход</a>
+            <a href="register.html" class="auth-btn auth-btn-outline">Регистрация</a>
+        </div>
+
+        <div class="auth-actions user">
+            <a href="profile.html" class="auth-btn">Профиль</a>
+            <a href="#" class="auth-btn logout">Выйти</a>
+        </div>
+
+        <a href="cart.html" class="cart-icon">
+            🛒
+            <span id="cart-count" class="cart-count" style="display: none;">0</span>
+        </a>
+    </div>
+</header>
+
+<a href="catalog.html" id="back-to-catalog" class="back-arrow" title="Вернуться к каталогу">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span>К каталогу</span>
+</a>
+
+<main class="product-page">
+    <section class="product-gallery">
+        <div class="gallery-main">
+            <img id="product-main-image" src="images/holodilnik_1/holodilnik_1_1.png" alt="Холодильник Aceline B16AMG">
+        </div>
+        <div class="gallery-thumbs" id="gallery-thumbs">
+            <img src="images/holodilnik_1/holodilnik_1_1.png" alt="Холодильник спереди" data-index="0" class="thumb-active">
+            <img src="images/holodilnik_1/holodilnik_1_2.png" alt="Холодильник сбоку" data-index="1">
+            <img src="images/holodilnik_1/holodilnik_1_3.png" alt="Внутреннее устроство" data-index="2">
+            <img src="images/holodilnik_1/holodilnik_1_4.png" alt="Панель управления" data-index="3">
+        </div>
+    </section>
+
+    <section class="product-info">
+        <h1 id="product-name">Холодильник Aceline B16AMG</h1>
+        <span class="sku" id="product-sku">Артикул: SC-001</span>
+        <span class="price" id="product-price" style="display: block; font-size: 28px; color: #38bdf8; margin: 15px 0;">17 999 ₽</span>
+
+        <div class="product-actions">
+            <button class="btn-primary" id="add-to-cart-btn">Добавить в корзину</button>
+            <button class="btn-favorite" id="favorite-btn" data-id="1" data-name="Холодильник Aceline B16AMG" data-price="17999" onclick="toggleFavorite(parseInt(this.dataset.id))">♡ В избранное</button>
+        </div>
+
+        <div class="accordion">
+            <details open>
+                <summary>Описание</summary>
+                <div class="product-description">
+                    <p>Загрузка...</p>
+                </div>
+            </details>
+
+            <details>
+                <summary>Характеристики</summary>
+                <div class="product-specifications">
+                    <p>Загрузка...</p>
+                </div>
+            </details>
+
+            <details>
+                <summary>Доставка и гарантия</summary>
+                <div class="product-delivery">
+                    <p>Загрузка...</p>
+                </div>
+            </details>
+        </div>
+    </section>
+</main>
+
+<!-- Секция отзывов -->
+<section class="reviews-section">
+    <div class="reviews-container">
+        <h2>Отзывы покупателей</h2>
+        
+        <!-- Форма добавления отзыва -->
+        <div class="review-form-container" id="review-form-container">
+            <h3>Оставить отзыв</h3>
+            <form id="review-form" class="review-form">
+                <div class="rating-input">
+                    <label>Ваша оценка:</label>
+                    <div class="stars-input">
+                        <span class="star" data-rating="1">☆</span>
+                        <span class="star" data-rating="2">☆</span>
+                        <span class="star" data-rating="3">☆</span>
+                        <span class="star" data-rating="4">☆</span>
+                        <span class="star" data-rating="5">☆</span>
+                    </div>
+                    <input type="hidden" id="rating-value" name="rating" value="0">
+                </div>
+                
+                <div class="form-group">
+                    <label for="review-text">Ваш отзыв:</label>
+                    <textarea id="review-text" name="review" rows="5" placeholder="Расскажите о вашем опыте использования товара..." required></textarea>
+                </div>
+                
+                <button type="submit" class="btn-primary">Отправить отзыв</button>
+            </form>
+        </div>
+        
+        <!-- Список отзывов -->
+        <div class="reviews-list" id="reviews-list">
+            <p class="no-reviews">Пока нет отзывов. Будьте первым!</p>
+        </div>
+    </div>
+</section>
+
+<section class="related-products">
+    <h2>Вам также может понравиться</h2>
+    <div class="related-list" id="related-products">
+        <div class="product-card" onclick="goToProduct(2)">
+            <img src="images/kofemashina_1/kofemashina_1_1.png" alt="Кофемашина">
+            <h4>Кофемашина SmartBrew</h4>
+            <span class="price">25 990 ₽</span>
+        </div>
+        
+        <div class="product-card" onclick="goToProduct(3)">
+            <img src="images/posudomoechnaya_1/posudomoechnaya_1_1.png" alt="Посудомойка">
+            <h4>Посудомоечная машина</h4>
+            <span class="price">59 990 ₽</span>
+        </div>
+        
+        <div class="product-card" onclick="goToProduct(4)">
+            <img src="images/holodilnik_2/holodilnik_2_1.png" alt="Холодильник LG">
+            <h4>Холодильник LG</h4>
+            <span class="price">89 990 ₽</span>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-brand">
+            <h3>SmartCook</h3>
+            <p>Лучшая техника для современной кухни</p>
+        </div>
+
+        <div class="footer-links">
+            <h4>Помощь</h4>
+            <a href="help.html#delivery">Доставка и оплата</a>
+            <a href="help.html#warranty">Гарантия и возврат</a>
+            <a href="help.html#reviews">Отзывы</a>
+        </div>
+
+        <div class="footer-links">
+            <h4>Категории</h4>
+            <a href="catalog.html?category=2">Кофемашины</a>
+            <a href="catalog.html?category=1">Холодильники</a>
+            <a href="catalog.html?category=3">Посудомоечные машины</a>
+        </div>
+
+        <div class="footer-contacts">
+            <h4>Контакты</h4>
+            <p>📍 г. Москва, ул. Технологическая, 15</p>
+            <p>📞 +7 (900) 123-45-67</p>
+            <p>✉️ info@smartcook.ru</p>
+        </div>
+    </div>
+
+    <p class="footer-copy">© 2025 SmartCook. Все права защищены.</p>
+</footer>
+
+<script src="js/api-v14.js"></script>
+<script src="js/cart.js?v=10"></script>
+<script src="js/auth.js?v=10"></script>
+<script src="js/favorites.js?v=10"></script>     
+<script src="js/main.js?v=10"></script>
+<script src="js/product.js?v=14"></script>
+<script src="js/reviews.js?v=2"></script>
+
+<script>
+// Функция для перехода к другому товару
+function goToProduct(productId) {
+    if (typeof loadProduct !== 'undefined') {
+        loadProduct(productId);
+    }
+}
+</script>
+
+</body>
+</html>

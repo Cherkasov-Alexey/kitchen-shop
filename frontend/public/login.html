@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход — SmartCook</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="logo-block">
+        <img src="images/logotip.png" alt="SmartCook logo" class="logo-img">
+        <div class="logo-text">SmartCook</div>
+    </div>
+</header>
+
+<main class="auth-container">
+    <form class="auth-form" id="login-form">
+        <h1>Вход</h1>
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Пароль">
+        <button type="submit">Войти</button>
+        <p class="error" id="error-msg"></p>
+    </form>
+</main>
+
+<script src="js/auth.js"></script>      
+<script src="js/main.js"></script>
+
+</body>
+</html>

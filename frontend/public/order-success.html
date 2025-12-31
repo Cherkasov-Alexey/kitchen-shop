@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Заказ оформлен — SmartCook</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .success-container {
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 40px;
+            text-align: center;
+            background: #1a1a1a;
+            border-radius: 20px;
+        }
+        
+        .success-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce 1s ease;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+        
+        .order-details {
+            background: rgba(255,255,255,0.05);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            text-align: left;
+        }
+        
+        .order-details p {
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .order-id {
+            color: #38bdf8;
+            font-weight: bold;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, #38bdf8, #a78bfa);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .whats-next {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #94a3b8;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="header-left">
+        <div class="logo-block">
+            <img src="images/logotip.png" alt="SmartCook logo" class="logo-img">
+            <div class="logo-text">SmartCook</div>
+        </div>
+
+        <nav class="nav">
+            <a href="index.html">Главная</a>
+            <a href="catalog.html">Каталог товаров</a>
+            <a href="sales.html">Акции</a>
+            <a href="favorites.html">Избранное</a>
+            <a href="contacts.html">Контакты</a>
+        </nav>
+    </div>
+
+    <div class="header-right">
+        <a href="cart.html" class="cart-icon">
+            🛒
+            <span id="cart-count" class="cart-count" style="display: none;">0</span>
+        </a>
+    </div>
+</header>
+
+<main class="success-container">
+    <div class="success-icon">✅</div>
+    
+    <h1>Заказ успешно оформлен!</h1>
+    <p>Спасибо за ваш заказ. Мы свяжемся с вами в ближайшее время.</p>
+    
+    <div class="order-details">
+        <p>
+            <span>Номер заказа:</span>
+            <span id="order-number" class="order-id"></span>
+        </p>
+        <p>
+            <span>Дата заказа:</span>
+            <span id="order-date"></span>
+        </p>
+        <p>
+            <span>Сумма заказа:</span>
+            <span id="order-total"></span>
+        </p>
+        <p>
+            <span>Статус:</span>
+            <span id="order-status" style="color: #fbbf24;">Ожидает оплаты</span>
+        </p>
+    </div>
+    
+    <div class="whats-next">
+        <h3>Что дальше?</h3>
+        <p>1. В течение 15 минут с вами свяжется менеджер для подтверждения заказа</p>
+        <p>2. Мы подготовим ваш заказ к отправке</p>
+        <p>3. Вы получите SMS с информацией о доставке</p>
+    </div>
+    
+    <div class="action-buttons">
+        <a href="index.html" class="btn btn-primary">Вернуться на главную</a>
+        <a href="catalog.html" class="btn btn-secondary">Продолжить покупки</a>
+    </div>
+</main>
+
+<footer class="footer">
+    <!-- Стандартный футер -->
+    <div class="footer-content">
+        <div class="footer-brand">
+            <h3>SmartCook</h3>
+            <p>Лучшая техника для современной кухни</p>
+        </div>
+
+        <div class="footer-links">
+            <h4>Помощь</h4>
+            <a href="help.html#delivery">Доставка и оплата</a>
+            <a href="help.html#warranty">Гарантия и возврат</a>
+            <a href="help.html#reviews">Отзывы</a>
+        </div>
+
+        <div class="footer-links">
+            <h4>Категории</h4>
+            <a href="catalog.html?category=2">Кофемашины</a>
+            <a href="catalog.html?category=1">Холодильники</a>
+            <a href="catalog.html?category=3">Посудомоечные машины</a>
+        </div>
+
+        <div class="footer-contacts">
+            <h4>Контакты</h4>
+            <p>📍 г. Москва, ул. Технологическая, 15</p>
+            <p>📞 +7 (900) 123-45-67</p>
+            <p>✉️ info@smartcook.ru</p>
+        </div>
+    </div>
+
+    <p class="footer-copy">© 2025 SmartCook. Все права защищены.</p>
+</footer>
+
+<script>
+// Получаем ID заказа из URL
+const urlParams = new URLSearchParams(window.location.search);
+const orderId = urlParams.get('id');
+
+if (orderId) {
+    // Находим заказ в LocalStorage
+    const orders = JSON.parse(localStorage.getItem('orders')) || [];
+    const order = orders.find(o => o.id == orderId);
+    
+    if (order) {
+        // Заполняем информацию о заказе
+        document.getElementById('order-number').textContent = order.number;
+        document.getElementById('order-date').textContent = order.date;
+        document.getElementById('order-total').textContent = order.total.toLocaleString() + ' ₽';
+    }
+}
+</script>
+
+<script src="js/api-v14.js"></script>
+<script src="js/cart.js"></script>
+
+</body>
+</html>

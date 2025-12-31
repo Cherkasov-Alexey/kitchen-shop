@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartCook</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- ШАПКА -->
+<header class="header">
+    <div class="header-left">
+        <div class="logo-block">
+            <img src="images/logotip.png" alt="SmartCook logo" class="logo-img">
+            <div class="logo-text">SmartCook</div>
+        </div>
+
+        <nav class="nav">
+            <a href="index.html">Главная</a>
+            <a href="catalog.html">Каталог товаров</a>
+            <a href="sales.html">Акции</a>
+            <a href="favorites.html">Избранное</a>
+            <a href="contacts.html">Контакты</a>
+        </nav>
+    </div>
+
+    <div class="header-right">
+
+        <!-- ГОСТЬ -->
+        <div class="auth-actions guest">
+            <a href="login.html" class="auth-btn">Вход</a>
+            <a href="register.html" class="auth-btn auth-btn-outline">Регистрация</a>
+        </div>
+
+        <!-- АВТОРИЗОВАН -->
+        <div class="auth-actions user">
+            <a href="profile.html" class="auth-btn">Профиль</a>
+            <a href="#" class="auth-btn logout">Выйти</a>
+        </div>
+
+        <!-- КОРЗИНА -->
+        <a href="cart.html" class="cart-icon">
+            🛒
+            <span id="cart-count" class="cart-count" style="display: none;">0</span>
+        </a>
+
+    </div>
+</header>
+
+    <!-- БАННЕР -->
+    <section class="banner">
+        <h1>Лучшая техника для вашей кухни</h1>
+        <p>Современные технологии для вкусной жизни</p>
+    </section>
+
+    <!-- КАТЕГОРИИ -->
+    <section class="categories">
+        <h2>Категории товаров</h2>
+
+        <div class="category-list" id="categories-container">
+            <div class="loading">Загрузка категорий...</div>
+        </div>
+    </section>
+
+    <!-- ПОПУЛЯРНЫЕ ТОВАРЫ -->
+    <section class="popular">
+        <h2>Популярные товары</h2>
+
+        <div class="product-list" id="featured-products">
+            <div class="loading">Загрузка товаров...</div>
+        </div>
+    </section>
+
+    <!-- О НАС -->
+    <section class="about">
+        <h2>О компании SmartCook</h2>
+<p>
+    SmartCook — это современный магазин кухонной техники,
+    созданный для людей, которые ценят технологии, комфорт и стиль.
+    Мы верим, что кухня — это не просто место для готовки,
+    а пространство, где инновации делают повседневную жизнь проще.
+</p>
+<p>
+    В нашем ассортименте представлены устройства, которые
+    интегрируются в умный дом, экономят время и превращают
+    процесс приготовления пищи в удовольствие.
+    SmartCook объединяет передовые технологии,
+    минималистичный дизайн и надёжность.
+</p>
+    </section>
+
+    <!-- ФУТЕР -->
+    <footer class="footer">
+    <div class="footer-content">
+        <div class="footer-brand">
+            <h3>SmartCook</h3>
+            <p>Лучшая техника для современной кухни</p>
+        </div>
+
+        <div class="footer-links">
+            <h4>Помощь</h4>
+            <a href="help.html#delivery">Доставка и оплата</a>
+            <a href="help.html#warranty">Гарантия и возврат</a>
+            <a href="help.html#reviews">Отзывы</a>
+        </div>
+
+        <div class="footer-links">
+            <h4>Категории</h4>
+            <a href="catalog.html?category=2">Кофемашины</a>
+            <a href="catalog.html?category=1">Холодильники</a>
+            <a href="catalog.html?category=3">Посудомоечные машины</a>
+        </div>
+
+        <div class="footer-contacts">
+            <h4>Контакты</h4>
+            <p>📍 г. Москва, ул. Технологическая, 15</p>
+            <p>📞 +7 (900) 123-45-67</p>
+            <p>✉️ info@smartcook.ru</p>
+        </div>
+    </div>
+
+    <p class="footer-copy">© 2025 SmartCook. Все права защищены.</p>
+</footer>
+
+<script src="js/api-v14.js"></script>
+<script src="js/cart.js?v=9"></script>
+<script src="js/auth.js?v=9"></script>
+<script src="js/favorites.js?v=9"></script>
+<script src="js/main.js?v=10"></script>
+
+</body>
+</html>

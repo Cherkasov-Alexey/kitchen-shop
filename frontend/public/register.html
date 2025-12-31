@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация — SmartCook</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="logo-block">
+        <div class="logo-text">SmartCook</div>
+    </div>
+</header>
+
+<main class="auth-container">
+    <form id="register-form" class="auth-form">
+        <h1>Регистрация</h1>
+
+        <input type="text" id="name" placeholder="Имя" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Пароль" required>
+
+        <button type="submit">Создать аккаунт</button>
+
+        <p class="auth-link">
+            Уже есть аккаунт? <a href="login.html">Войти</a>
+        </p>
+    </form>
+</main>
+
+<script src="js/auth.js"></script>      
+<script src="js/main.js"></script>
+
+</body>
+</html>

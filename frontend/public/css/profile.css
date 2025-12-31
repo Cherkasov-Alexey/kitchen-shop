@@ -1,0 +1,35 @@
+.profile-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.profile-card {
+    background: rgba(16,16,30,0.9);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 0 40px rgba(0,255,255,0.3), 0 10px 30px rgba(0,0,0,0.4);
+    border: 2px solid rgba(0,255,255,0.3);
+}
+
+.profile-card p {
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.logout-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    background: linear-gradient(90deg, #ff0080, #00ffff);
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-weight: 600;
+}
+
+.logout-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(255,0,128,0.6), 0 0 40px rgba(0,255,255,0.4);
+}

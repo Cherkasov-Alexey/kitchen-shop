@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Оформление заказа — SmartCook</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .checkout-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 40px;
+        }
+        
+        .checkout-form {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 16px;
+        }
+        
+        .checkout-summary {
+            background: #1a1a1a;
+            padding: 25px;
+            border-radius: 16px;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #94a3b8;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #2a2a2a;
+            color: white;
+        }
+        
+        .payment-methods {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .payment-method {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .payment-method.selected {
+            border-color: #38bdf8;
+            background: rgba(56,189,248,0.1);
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .order-total {
+            font-size: 24px;
+            font-weight: bold;
+            color: #38bdf8;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #38bdf8, #a78bfa);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="header-left">
+        <div class="logo-block">
+            <img src="images/logotip.png" alt="SmartCook logo" class="logo-img">
+            <div class="logo-text">SmartCook</div>
+        </div>
+
+        <nav class="nav">
+            <a href="index.html">Главная</a>
+            <a href="catalog.html">Каталог товаров</a>
+            <a href="sales.html">Акции</a>
+            <a href="favorites.html">Избранное</a>
+            <a href="contacts.html">Контакты</a>
+        </nav>
+    </div>
+
+    <div class="header-right">
+        <a href="cart.html" class="cart-icon">
+            🛒
+            <span id="cart-count" class="cart-count" style="display: none;">0</span>
+        </a>
+    </div>
+</header>
+
+<section class="cart-title">
+    <h1>Оформление заказа</h1>
+</section>
+
+<main class="checkout-container">
+    <div class="checkout-grid">
+        
+        <!-- Левая колонка: Форма -->
+        <div class="checkout-form">
+            <h2>Данные покупателя</h2>
+            
+            <form id="checkout-form">
+                <div class="form-group">
+                    <label for="name">ФИО *</label>
+                    <input type="text" id="name" required placeholder="Иванов Иван Иванович">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Телефон *</label>
+                    <input type="tel" id="phone" required placeholder="+7 (900) 123-45-67">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="ivanov@example.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Адрес доставки *</label>
+                    <textarea id="address" rows="3" required placeholder="Город, улица, дом, квартира"></textarea>
+                </div>
+                
+                <h3>Способ оплаты</h3>
+                <div class="payment-methods">
+                    <div class="payment-method" data-value="cash">
+                        <div>💵</div>
+                        <div>Наличные</div>
+                    </div>
+                    <div class="payment-method" data-value="card">
+                        <div>💳</div>
+                        <div>Карта онлайн</div>
+                    </div>
+                    <input type="hidden" name="payment" id="payment" value="card">
+                </div>
+                
+                <div class="form-group">
+                    <label for="comment">Комментарий к заказу</label>
+                    <textarea id="comment" rows="3" placeholder="Дополнительные пожелания"></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">Оформить заказ</button>
+            </form>
+        </div>
+        
+        <!-- Правая колонка: Сводка заказа -->
+        <div class="checkout-summary">
+            <h2>Ваш заказ</h2>
+            <div id="order-summary">
+                <!-- Сюда JS вставит товары -->
+            </div>
+            
+            <div class="order-total">
+                Итого: <span id="order-total">0 ₽</span>
+            </div>
+            
+            <div style="color: #94a3b8; font-size: 14px; margin-top: 20px;">
+                Нажимая кнопку "Оформить заказ", вы соглашаетесь с 
+                <a href="#" style="color: #7dd3fc;">правилами обработки персональных данных</a>.
+            </div>
+        </div>
+        
+    </div>
+</main>
+
+<footer class="footer">
+    <!-- Стандартный футер из других страниц -->
+    <div class="footer-content">
+        <div class="footer-brand">
+            <h3>SmartCook</h3>
+            <p>Лучшая техника для современной кухни</p>
+        </div>
+
+        <div class="footer-links">
+            <h4>Помощь</h4>
+            <a href="help.html#delivery">Доставка и оплата</a>
+            <a href="help.html#warranty">Гарантия и возврат</a>
+            <a href="help.html#reviews">Отзывы</a>
+        </div>
+
+        <div class="footer-links">
+            <h4>Категории</h4>
+            <a href="catalog.html?category=2">Кофемашины</a>
+            <a href="catalog.html?category=1">Холодильники</a>
+            <a href="catalog.html?category=3">Посудомоечные машины</a>
+        </div>
+
+        <div class="footer-contacts">
+            <h4>Контакты</h4>
+            <p>📍 г. Москва, ул. Технологическая, 15</p>
+            <p>📞 +7 (900) 123-45-67</p>
+            <p>✉️ info@smartcook.ru</p>
+        </div>
+    </div>
+
+    <p class="footer-copy">© 2025 SmartCook. Все права защищены.</p>
+</footer>
+
+<script src="js/api-v14.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/auth.js"></script>      
+<script src="js/main.js"></script>
+<script src="js/checkout.js"></script>
+
+</body>
+</html>

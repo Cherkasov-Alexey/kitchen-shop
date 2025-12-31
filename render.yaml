@@ -1,0 +1,25 @@
+# Render manifest for deploying the Kitchen Shop app
+# Edit regions/plans as needed. This file creates a Web Service and a Postgres database.
+
+services:
+  - type: web
+    name: kitchen-shop-web
+    env: node
+    plan: free
+    region: oregon
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+databases:
+  - name: kitchen-shop-db
+    engine: postgresql
+    version: 14
+    plan: starter
+
+# Notes:
+# - Render will create a managed Postgres and expose a DATABASE_URL for it.
+# - In this project `backend/src/index.js` expects DB connection via DB_HOST/DB_USER/DB_PASSWORD/DB_NAME/DB_PORT environment variables.
+#   After the database is provisioned you should add these environment variables in the Render dashboard (or adjust the app to use DATABASE_URL).

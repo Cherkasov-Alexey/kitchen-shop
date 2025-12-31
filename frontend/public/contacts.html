@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Контакты — SmartCook</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=031b1ebf-5bda-4db3-85a9-e8504f6cd99a" type="text/javascript"></script>
+    <style>
+        .map-title {
+            text-align: center;
+            padding: 40px 20px 20px;
+        }
+        
+        .map-title h1 {
+            font-size: 42px;
+            font-weight: 700;
+            color: #7dd3fc;
+            text-shadow: 0 0 15px rgba(125,211,252,0.5);
+        }
+        
+        .map-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .map-btn {
+            padding: 12px 24px;
+            background: rgba(56,189,248,0.2);
+            border: 1px solid rgba(56,189,248,0.5);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .map-btn:hover {
+            background: rgba(56,189,248,0.4);
+            transform: translateY(-2px);
+        }
+        
+        .map-info {
+            background: rgba(255,255,255,0.05);
+            padding: 25px;
+            border-radius: 16px;
+            margin-top: 30px;
+        }
+        
+        .map-info h3 {
+            color: #38bdf8;
+            margin-bottom: 15px;
+        }
+        
+        .map-info p {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="header-left">
+        <div class="logo-block">
+            <img src="images/logotip.png" alt="SmartCook logo" class="logo-img">
+            <div class="logo-text">SmartCook</div>
+        </div>
+
+        <nav class="nav">
+            <a href="index.html">Главная</a>
+            <a href="catalog.html">Каталог товаров</a>
+            <a href="sales.html">Акции</a>
+            <a href="favorites.html">Избранное</a>
+            <a href="contacts.html">Контакты</a>
+        </nav>
+    </div>
+
+    <div class="header-right">
+        <div class="auth-actions guest">
+            <a href="login.html" class="auth-btn">Вход</a>
+            <a href="register.html" class="auth-btn auth-btn-outline">Регистрация</a>
+        </div>
+
+        <div class="auth-actions user">
+            <a href="profile.html" class="auth-btn">Профиль</a>
+            <a href="#" class="auth-btn logout">Выйти</a>
+        </div>
+
+        <a href="cart.html" class="cart-icon">
+            🛒
+            <span id="cart-count" class="cart-count" style="display: none;">0</span>
+        </a>
+    </div>
+</header>
+
+<section class="map-title">
+    <h1>Мы на карте</h1>
+</section>
+
+<main style="max-width: 1200px; margin: 0 auto; padding: 0 20px 60px;">
+    <div style="position: relative;">
+        <div id="map-loader" style="position: absolute; top: 0; left: 0; width: 100%; height: 500px; display: flex; align-items: center; justify-content: center; background: rgba(10,10,15,0.9); border-radius: 16px; z-index: 10;">
+            <div style="text-align: center;">
+                <div style="font-size: 48px; margin-bottom: 10px;">🗺️</div>
+                <div style="color: #38bdf8;">Загрузка карты...</div>
+            </div>
+        </div>
+        <div id="map" style="width: 100%; height: 500px; border-radius: 16px; overflow: hidden; opacity: 0; transition: opacity 0.3s;"></div>
+    </div>
+    
+    <div class="map-controls">
+        <button class="map-btn" onclick="zoomIn()">+ Увеличить</button>
+        <button class="map-btn" onclick="zoomOut()">- Уменьшить</button>
+        <button class="map-btn" onclick="findMe()" style="background: rgba(236,72,153,0.2); border-color: rgba(236,72,153,0.5);">📍 Мое местоположение</button>
+        <button class="map-btn" onclick="showShop()" style="background: rgba(168,85,247,0.2); border-color: rgba(168,85,247,0.5);">🏪 Вернуться к магазину</button>
+    </div>
+    
+    <div class="map-info">
+        <h3>Как добраться</h3>
+        <p>📍 <strong>Адрес:</strong> г. Москва, ул. Технологическая, 15</p>
+        <p>🚇 <strong>Метро:</strong> ст. "Технологическая" (5 минут пешком)</p>
+        <p>🚗 <strong>Парковка:</strong> Бесплатная парковка на территории ТЦ</p>
+        <p>🕒 <strong>Часы работы:</strong> Пн-Пт: 10:00-20:00, Сб-Вс: 11:00-18:00</p>
+        <p>📞 <strong>Телефон:</strong> +7 (900) 123-45-67</p>
+        <p>✉️ <strong>Email:</strong> info@smartcook.ru</p>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-brand">
+            <h3>SmartCook</h3>
+            <p>Лучшая техника для современной кухни</p>
+        </div>
+
+        <div class="footer-links">
+            <h4>Помощь</h4>
+            <a href="help.html#delivery">Доставка и оплата</a>
+            <a href="help.html#warranty">Гарантия и возврат</a>
+            <a href="help.html#reviews">Отзывы</a>
+        </div>
+
+        <div class="footer-links">
+            <h4>Категории</h4>
+            <a href="catalog.html?category=2">Кофемашины</a>
+            <a href="catalog.html?category=1">Холодильники</a>
+            <a href="catalog.html?category=3">Посудомоечные машины</a>
+        </div>
+
+        <div class="footer-contacts">
+            <h4>Контакты</h4>
+            <p>📍 г. Москва, ул. Технологическая, 15</p>
+            <p>📞 +7 (900) 123-45-67</p>
+            <p>✉️ info@smartcook.ru</p>
+        </div>
+    </div>
+
+    <p class="footer-copy">© 2025 SmartCook. Все права защищены.</p>
+</footer>
+
+<script src="js/api-v14.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/main.js"></script>
+<script>
+// Глобальная переменная для карты
+let yandexMap = null;
+const shopCoordinates = [55.751244, 37.618423];
+
+// Инициализация карты
+ymaps.ready(function() {
+    yandexMap = new ymaps.Map('map', {
+        center: shopCoordinates,
+        zoom: 16,
+        controls: ['zoomControl', 'fullscreenControl', 'typeSelector']
+    });
+    
+    // Метка магазина
+    const shopPlacemark = new ymaps.Placemark(shopCoordinates, {
+        balloonContentHeader: 'SmartCook',
+        balloonContentBody: 'ул. Технологическая, 15<br>Москва<br>Телефон: +7 (900) 123-45-67<br>Часы работы: 10:00-20:00',
+        hintContent: 'Магазин SmartCook'
+    }, {
+        preset: 'islands#blueShoppingIcon',
+        iconColor: '#38bdf8'
+    });
+    
+    yandexMap.geoObjects.add(shopPlacemark);
+    shopPlacemark.balloon.open();
+    
+    // Скрываем индикатор загрузки и показываем карту
+    setTimeout(() => {
+        const loader = document.getElementById('map-loader');
+        const mapElement = document.getElementById('map');
+        if (loader) loader.style.opacity = '0';
+        if (mapElement) mapElement.style.opacity = '1';
+        setTimeout(() => {
+            if (loader) loader.style.display = 'none';
+        }, 400);
+    }, 500);
+    
+    console.log('Карта Яндекс успешно загружена!');
+});
+
+// Функции управления картой
+function zoomIn() {
+    if (yandexMap) {
+        const currentZoom = yandexMap.getZoom();
+        yandexMap.setZoom(currentZoom + 1, {duration: 300});
+    }
+}
+
+function zoomOut() {
+    if (yandexMap) {
+        const currentZoom = yandexMap.getZoom();
+        yandexMap.setZoom(currentZoom - 1, {duration: 300});
+    }
+}
+
+function findMe() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            if (yandexMap) {
+                const userCoords = [position.coords.latitude, position.coords.longitude];
+                
+                // Удаляем старую метку пользователя
+                yandexMap.geoObjects.each(function(geoObject) {
+                    if (geoObject.options && geoObject.options.preset === 'islands#greenDotIcon') {
+                        yandexMap.geoObjects.remove(geoObject);
+                    }
+                });
+                
+                // Добавляем новую метку пользователя
+                const userPlacemark = new ymaps.Placemark(userCoords, {
+                    hintContent: 'Вы здесь',
+                    balloonContent: 'Ваше текущее местоположение'
+                }, {
+                    preset: 'islands#greenDotIcon'
+                });
+                
+                yandexMap.geoObjects.add(userPlacemark);
+                yandexMap.setCenter(userCoords, 15);
+                
+                // Показываем маршрут
+                showRoute(userCoords);
+            }
+        }, function(error) {
+            alert('Не удалось определить ваше местоположение. Проверьте настройки геолокации.');
+        });
+    } else {
+        alert('Геолокация не поддерживается вашим браузером');
+    }
+}
+
+function showShop() {
+    if (yandexMap) {
+        yandexMap.setCenter(shopCoordinates, 16);
+        
+        // Удаляем метку пользователя
+        yandexMap.geoObjects.each(function(geoObject) {
+            if (geoObject.options && geoObject.options.preset === 'islands#greenDotIcon') {
+                yandexMap.geoObjects.remove(geoObject);
+            }
+        });
+    }
+}
+
+function showRoute(userCoords) {
+    if (yandexMap) {
+        // Создаем маршрут
+        const multiRoute = new ymaps.multiRouter.MultiRoute({
+            referencePoints: [
+                userCoords,
+                shopCoordinates
+            ],
+            params: {
+                routingMode: 'pedestrian'
+            }
+        }, {
+            boundsAutoApply: true
+        });
+        
+        // Удаляем старый маршрут
+        yandexMap.geoObjects.each(function(geoObject) {
+            if (geoObject instanceof ymaps.multiRouter.MultiRoute) {
+                yandexMap.geoObjects.remove(geoObject);
+            }
+        });
+        
+        // Добавляем новый маршрут
+        yandexMap.geoObjects.add(multiRoute);
+    }
+}
+</script>
+
+</body>
+</html>
