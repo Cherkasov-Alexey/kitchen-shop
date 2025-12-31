@@ -15,23 +15,30 @@ function convertPlaceholders(sql) {
 
 module.exports = {
     async connect(config) {
-        const pgConfig = {
-            host: config.host || 'localhost',
-            port: config.port ? Number(config.port) : 5432,
-            user: config.user || 'shop',
-            password: config.password || 'shop_pass',
-            database: config.database || process.env.DB_NAME || 'kitchen_shop'
-        };
+        // support either a full connection string or individual params
+        let clientOptions;
+        if (config && config.connectionString) {
+            clientOptions = { connectionString: config.connectionString };
+        } else {
+            clientOptions = {
+                host: config.host || 'localhost',
+                port: config.port ? Number(config.port) : 5432,
+                user: config.user || 'shop',
+                password: config.password || 'shop_pass',
+                database: config.database || process.env.DB_NAME || 'kitchen_shop'
+            };
+        }
 
-        console.log('🔌 Подключаюсь к Postgres:', { 
-            host: pgConfig.host, 
-            port: pgConfig.port, 
-            user: pgConfig.user, 
-            database: pgConfig.database,
-            password: pgConfig.password ? '***' : 'ОТСУТСТВУЕТ!'
+        // Log connection info (hide password)
+        console.log('🔌 Подключаюсь к Postgres:', {
+            host: clientOptions.host || (clientOptions.connectionString ? '<connectionString>' : 'localhost'),
+            port: clientOptions.port || 5432,
+            user: clientOptions.user || (clientOptions.connectionString ? '<from connectionString>' : 'shop'),
+            database: clientOptions.database || (clientOptions.connectionString ? '<from connectionString>' : 'kitchen_shop'),
+            password: clientOptions.password ? '***' : (clientOptions.connectionString ? '*** (from connectionString)' : 'ОТСУТСТВУЕТ!')
         });
 
-        client = new Client(pgConfig);
+        client = new Client(clientOptions);
         await client.connect();
         await client.query("SET client_encoding = 'UTF8'");
 
