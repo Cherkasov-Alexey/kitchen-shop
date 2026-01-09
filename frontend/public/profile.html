@@ -94,8 +94,22 @@ document.addEventListener('DOMContentLoaded', function() {
         // Заполняем данные
         document.getElementById('user-name').textContent = currentUser.user_name || 'Не указано';
         document.getElementById('user-email').textContent = currentUser.email || 'Не указано';
-        document.getElementById('user-reg-date').textContent = currentUser.created_at ? 
-            new Date(currentUser.created_at).toLocaleDateString('ru-RU') : 'Неизвестно';
+        
+        // Форматируем дату с учетом UTC+3
+        if (currentUser.created_at) {
+            const date = new Date(currentUser.created_at);
+            // Добавляем 3 часа (UTC+3)
+            date.setHours(date.getHours() + 3);
+            const formattedDate = date.toLocaleDateString('ru-RU', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                timeZone: 'UTC'
+            });
+            document.getElementById('user-reg-date').textContent = formattedDate;
+        } else {
+            document.getElementById('user-reg-date').textContent = 'Неизвестно';
+        }
             
         // Обновляем имя в шапке
         const profileName = document.getElementById('profile-name');
