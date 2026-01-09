@@ -7,6 +7,14 @@ const bcrypt = require('bcrypt');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Функция для конвертации UTC в московское время
+function formatMoscowDateTime(utcDate) {
+    const date = new Date(utcDate);
+    // Добавляем 3 часа для UTC+3
+    date.setHours(date.getHours() + 3);
+    return date.toISOString();
+}
+
 // Middleware
 app.use(cors());
 app.use(express.json());
