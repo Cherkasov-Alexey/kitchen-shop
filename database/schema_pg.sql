@@ -87,13 +87,13 @@ CREATE TABLE IF NOT EXISTS reviews (
 );
 
 -- Заполнение категорий
-INSERT INTO categories (id, name) VALUES
+INSERT INTO categories (id, category_name) VALUES
 (1, 'Холодильники'),
 (2, 'Кофемашины'),
 (3, 'Посудомоечные машины')
 ON CONFLICT DO NOTHING;
 
 -- Заполнение товаров (упрощённо):
-INSERT INTO products (id, name, old_price, new_price, description, specifications, warranty, images, category_id) VALUES
+INSERT INTO products (id, product_name, old_price, price, description, specifications, warranty, images, category_id) VALUES
 (1, 'Холодильник Aceline B16AMG', 17999.00, 14999.00, 'Холодильник...', 'Энергопотребление: 203 кВтч/год', 'Гарантия 3 года', 'images/holodilnik_1/holodilnik_1_1.png', 1)
 ON CONFLICT DO NOTHING;
