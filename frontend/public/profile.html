@@ -95,15 +95,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('user-name').textContent = currentUser.user_name || 'Не указано';
         document.getElementById('user-email').textContent = currentUser.email || 'Не указано';
         
-        // Форматируем дату с учетом московского времени (UTC+3)
+        // Форматируем дату регистрации
         if (currentUser.created_at) {
-            const formattedDate = new Date(currentUser.created_at).toLocaleDateString('ru-RU', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                timeZone: 'Europe/Moscow'
-            });
-            document.getElementById('user-reg-date').textContent = formattedDate;
+            document.getElementById('user-reg-date').textContent = formatMoscowDate(currentUser.created_at);
         } else {
             document.getElementById('user-reg-date').textContent = 'Неизвестно';
         }
