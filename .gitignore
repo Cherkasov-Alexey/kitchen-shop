@@ -1,6 +1,6 @@
 .DS_Store
 node_modules/
-/.env
+.env
 .env.local
 .env.*.local
 npm-debug.log*
@@ -13,6 +13,7 @@ build/
 coverage/
 /.cache
 *.log
+db.js
 
 # Mac
 Icon\r

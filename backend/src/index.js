@@ -36,8 +36,32 @@ app.use((req, res, next) => {
 });
 
 // Простая проверка состояния сервиса
-app.get('/health', (req, res) => {
-    res.json({ status: 'ok', db: db ? 'connected' : 'disconnected' });
+app.get('/health', async (req, res) => {
+    try {
+        if (db) {
+            // Проверяем подключение к БД
+            await db.query('SELECT 1');
+            res.json({ 
+                status: 'healthy', 
+                database: 'connected',
+                environment: process.env.NODE_ENV || 'development',
+                timestamp: new Date().toISOString()
+            });
+        } else {
+            res.status(503).json({ 
+                status: 'unhealthy', 
+                database: 'not initialized',
+                timestamp: new Date().toISOString()
+            });
+        }
+    } catch (error) {
+        res.status(500).json({ 
+            status: 'unhealthy', 
+            database: 'disconnected',
+            error: error.message,
+            timestamp: new Date().toISOString()
+        });
+    }
 });
 
 // Подключение к базе данных

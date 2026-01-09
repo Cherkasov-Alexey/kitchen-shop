@@ -18,14 +18,22 @@ module.exports = {
         // support either a full connection string or individual params
         let clientOptions;
         if (config && config.connectionString) {
-            clientOptions = { connectionString: config.connectionString };
+            clientOptions = { 
+                connectionString: config.connectionString,
+                ssl: process.env.NODE_ENV === 'production' ? {
+                    rejectUnauthorized: false
+                } : false
+            };
         } else {
             clientOptions = {
                 host: config.host || 'localhost',
                 port: config.port ? Number(config.port) : 5432,
                 user: config.user || 'shop',
                 password: config.password || 'shop_pass',
-                database: config.database || process.env.DB_NAME || 'kitchen_shop'
+                database: config.database || process.env.DB_NAME || 'kitchen_shop',
+                ssl: process.env.NODE_ENV === 'production' ? {
+                    rejectUnauthorized: false
+                } : false
             };
         }
 
