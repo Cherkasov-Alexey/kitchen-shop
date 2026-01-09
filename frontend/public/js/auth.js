@@ -16,8 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             try {
-                const apiUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000/api' : `${window.location.origin}/api`;
-                const response = await fetch(`${apiUrl}/auth/login`, {
+                const response = await fetch(`${API_BASE_URL}/auth/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
@@ -56,8 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             try {
-                const apiUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000/api' : `${window.location.origin}/api`;
-                const response = await fetch(`${apiUrl}/auth/register`, {
+                const response = await fetch(`${API_BASE_URL}/auth/register`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name, email, password })

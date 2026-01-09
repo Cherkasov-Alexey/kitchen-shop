@@ -86,6 +86,31 @@ async function viewRenderDatabase() {
             console.log('Пусто');
         }
 
+        // Отзывы
+        const reviews = await client.query(`
+            SELECT r.id, r.user_id, u.user_name, r.product_id, p.product_name, r.rating, r.text, r.created_at
+            FROM reviews r
+            JOIN users u ON r.user_id = u.id
+            JOIN products p ON r.product_id = p.id
+            ORDER BY r.created_at DESC
+        `);
+        console.log('\n⭐ ОТЗЫВЫ:');
+        if (reviews.rows.length > 0) {
+            const reviewsWithMoscowTime = reviews.rows.map(r => ({
+                id: r.id,
+                user_id: r.user_id,
+                user_name: r.user_name,
+                product_id: r.product_id,
+                product_name: r.product_name,
+                rating: r.rating,
+                text: r.text ? r.text.substring(0, 50) + (r.text.length > 50 ? '...' : '') : null,
+                created_at: toMoscowTime(r.created_at)
+            }));
+            console.table(reviewsWithMoscowTime);
+        } else {
+            console.log('Пусто');
+        }
+
     } catch (error) {
         console.error('❌ Ошибка:', error.message);
     } finally {
