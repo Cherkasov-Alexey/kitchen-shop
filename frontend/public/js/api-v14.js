@@ -119,6 +119,11 @@ class UIUtils {
 // Глобальные переменные
 const api = new SmartCookAPI();
 
+// Вспомогательная функция для получения API URL
+function getApiUrl() {
+    return api.baseURL.replace('/api', '');
+}
+
 // Функции для работы с корзиной
 async function addToCart(productId) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -128,7 +133,7 @@ async function addToCart(productId) {
     }
     
     try {
-        const response = await fetch('http://localhost:3000/api/cart', {
+        const response = await fetch(`${api.baseURL}/cart`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -162,12 +167,12 @@ async function toggleFavorite(productId) {
     
     try {
         // Проверяем, есть ли товар в избранном
-        const checkResponse = await fetch(`http://localhost:3000/api/favorites/${currentUser.id}/${productId}`);
+        const checkResponse = await fetch(`${api.baseURL}/favorites/${currentUser.id}/${productId}`);
         const { isFavorite } = await checkResponse.json();
         
         if (isFavorite) {
             // Удаляем из избранного
-            await fetch(`http://localhost:3000/api/favorites/${currentUser.id}/${productId}`, {
+            await fetch(`${api.baseURL}/favorites/${currentUser.id}/${productId}`, {
                 method: 'DELETE'
             });
             showNotification('Товар удален из избранного');
@@ -176,7 +181,7 @@ async function toggleFavorite(productId) {
             updateFavoriteButton(productId, false);
         } else {
             // Добавляем в избранное
-            await fetch('http://localhost:3000/api/favorites', {
+            await fetch(`${api.baseURL}/favorites`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -241,7 +246,7 @@ async function updateCartCount() {
     }
     
     try {
-        const response = await fetch(`http://localhost:3000/api/cart/${currentUser.id}`);
+        const response = await fetch(`${api.baseURL}/cart/${currentUser.id}`);
         const cart = await response.json();
         const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
         
@@ -291,7 +296,7 @@ async function updateAllFavoriteButtons() {
     if (!currentUser) return;
     
     try {
-        const response = await fetch(`http://localhost:3000/api/favorites/${currentUser.id}`);
+        const response = await fetch(`${api.baseURL}/favorites/${currentUser.id}`);
         const favorites = await response.json();
         const favoriteIds = favorites.map(f => f.id);
         
