@@ -23,7 +23,7 @@ async function loadFavoriteProducts() {
     }
     
     try {
-        const response = await fetch(`API_BASE_URL/favorites/${currentUser.id}`);
+        const response = await fetch(`${API_BASE_URL}/favorites/${currentUser.id}`);
         const favorites = await response.json();
         favoritesContainer.innerHTML = '';
         if (favorites.length === 0) {

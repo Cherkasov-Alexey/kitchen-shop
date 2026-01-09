@@ -12,7 +12,7 @@ async function updateCartCount() {
     }
     
     try {
-        const response = await fetch(`API_BASE_URL/cart/${currentUser.id}`);
+        const response = await fetch(`${API_BASE_URL}/cart/${currentUser.id}`);
         cart = await response.json();
         
         const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -29,7 +29,7 @@ async function removeFromCart(productId) {
     if (!currentUser) return;
     
     try {
-        await fetch(`API_BASE_URL/cart/${currentUser.id}/${productId}`, {
+        await fetch(`${API_BASE_URL}/cart/${currentUser.id}/${productId}`, {
             method: 'DELETE'
         });
         

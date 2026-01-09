@@ -12,7 +12,7 @@ async function renderOrderSummary() {
     }
 
     try {
-        const response = await fetch(`API_BASE_URL/cart/${currentUser.id}`);
+        const response = await fetch(`${API_BASE_URL}/cart/${currentUser.id}`);
         const cart = await response.json();
         
         const summaryElement = document.getElementById('order-summary');
@@ -85,7 +85,7 @@ function setupFormSubmit() {
 
         try {
             // Проверяем корзину из базы данных
-            const cartResponse = await fetch(`API_BASE_URL/cart/${currentUser.id}`);
+            const cartResponse = await fetch(`${API_BASE_URL}/cart/${currentUser.id}`);
             const cart = await cartResponse.json();
             
             if (cart.length === 0) {
@@ -146,7 +146,7 @@ async function processOrder(formData, cart) {
     
     try {
         // Создаем заказ в базе данных
-        const orderResponse = await fetch('API_BASE_URL/orders', {
+        const orderResponse = await fetch('${API_BASE_URL}/orders', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -168,7 +168,7 @@ async function processOrder(formData, cart) {
         const order = await orderResponse.json();
 
         // Очищаем корзину в базе данных
-        await fetch(`API_BASE_URL/cart/${currentUser.id}`, {
+        await fetch(`${API_BASE_URL}/cart/${currentUser.id}`, {
             method: 'DELETE'
         });
 

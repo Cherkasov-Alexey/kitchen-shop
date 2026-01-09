@@ -25,7 +25,7 @@ function setupCartEventListenersOnce() {
             const productId = e.target.dataset.id;
             
             try {
-                await fetch(`API_BASE_URL/cart/${currentUser.id}/${productId}`, {
+                await fetch(`${API_BASE_URL}/cart/${currentUser.id}/${productId}`, {
                     method: 'DELETE'
                 });
                 
@@ -50,7 +50,7 @@ function setupCartEventListenersOnce() {
             const currentQuantity = parseInt(quantitySpan.textContent);
             
             try {
-                await fetch('API_BASE_URL/cart', {
+                await fetch('${API_BASE_URL}/cart', {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -78,7 +78,7 @@ function setupCartEventListenersOnce() {
             
             try {
                 if (currentQuantity > 1) {
-                    await fetch('API_BASE_URL/cart', {
+                    await fetch('${API_BASE_URL}/cart', {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -93,7 +93,7 @@ function setupCartEventListenersOnce() {
                     await updateCartTotal();
                 } else {
                     // Удаляем товар, если количество = 1
-                    await fetch(`API_BASE_URL/cart/${currentUser.id}/${productId}`, {
+                    await fetch(`${API_BASE_URL}/cart/${currentUser.id}/${productId}`, {
                         method: 'DELETE'
                     });
                     
@@ -138,7 +138,7 @@ async function renderCart() {
     }
     
     try {
-        const response = await fetch(`API_BASE_URL/cart/${currentUser.id}`);
+        const response = await fetch(`${API_BASE_URL}/cart/${currentUser.id}`);
         const cart = await response.json();
         
         // Если корзина пуста
@@ -205,7 +205,7 @@ async function updateCartTotal() {
     }
     
     try {
-        const response = await fetch(`API_BASE_URL/cart/${currentUser.id}`);
+        const response = await fetch(`${API_BASE_URL}/cart/${currentUser.id}`);
         const cart = await response.json();
         const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         
@@ -231,7 +231,7 @@ async function setupCheckoutButton() {
             }
             
             try {
-                const response = await fetch(`API_BASE_URL/cart/${currentUser.id}`);
+                const response = await fetch(`${API_BASE_URL}/cart/${currentUser.id}`);
                 const cart = await response.json();
                 
                 if (cart.length === 0) {

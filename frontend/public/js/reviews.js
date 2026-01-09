@@ -97,7 +97,7 @@ function initReviewForm(productId, user) {
         
         // Отправляем отзыв на сервер
         try {
-            const response = await fetch('API_BASE_URL/reviews', {
+            const response = await fetch('${API_BASE_URL}/reviews', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -137,7 +137,7 @@ async function loadReviews(productId) {
     const reviewsList = document.getElementById('reviews-list');
     
     try {
-        const response = await fetch(`API_BASE_URL/reviews/${productId}`);
+        const response = await fetch(`${API_BASE_URL}/reviews/${productId}`);
         if (!response.ok) {
             throw new Error('Ошибка загрузки отзывов');
         }
