@@ -97,7 +97,7 @@ function initReviewForm(productId, user) {
         
         // Отправляем отзыв на сервер
         try {
-            const response = await fetch('${API_BASE_URL}/reviews', {
+            const response = await fetch(`${API_BASE_URL}/reviews`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -151,7 +151,12 @@ async function loadReviews(productId) {
         
         // Отображаем отзывы
         reviewsList.innerHTML = reviews.map(review => {
-            const formattedDate = formatMoscowDate(review.created_at);
+            const date = new Date(review.created_at);
+            const formattedDate = date.toLocaleDateString('ru-RU', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
             const stars = generateStars(review.rating);
             
             return `

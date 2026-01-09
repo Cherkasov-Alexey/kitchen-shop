@@ -97,7 +97,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Форматируем дату регистрации
         if (currentUser.created_at) {
-            document.getElementById('user-reg-date').textContent = formatMoscowDate(currentUser.created_at);
+            const date = new Date(currentUser.created_at);
+            const dateOnly = date.toISOString().split('T')[0];
+            const [year, month, day] = dateOnly.split('-');
+            const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+            document.getElementById('user-reg-date').textContent = `${parseInt(day)} ${months[parseInt(month) - 1]} ${year} г.`;
         } else {
             document.getElementById('user-reg-date').textContent = 'Неизвестно';
         }
