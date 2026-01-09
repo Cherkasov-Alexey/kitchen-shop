@@ -4,6 +4,15 @@ const { Client } = require('pg');
 // DATABASE_URL с Render
 const DATABASE_URL = 'postgresql://kitchen_shop_5b8v_user:3IsrZMhus77VjNzygouuwiJ1cg1R0sUX@dpg-d5gilmnfte5s73flt7g0-a.frankfurt-postgres.render.com/kitchen_shop_5b8v';
 
+// Функция для конвертации UTC в Moscow Time
+function toMoscowTime(utcDate) {
+    if (!utcDate) return null;
+    const date = new Date(utcDate);
+    // Добавляем 3 часа
+    date.setHours(date.getHours() + 3);
+    return date.toISOString().replace('Z', ' MSK');
+}
+
 async function viewRenderDatabase() {
     const client = new Client({
         connectionString: DATABASE_URL,
@@ -27,14 +36,25 @@ async function viewRenderDatabase() {
         console.table(products.rows);
 
         // Пользователи
-        const users = await client.query('SELECT id, email, created_at FROM users ORDER BY id');
+        const users = await client.query('SELECT id, user_name, email, password_hash, created_at FROM users ORDER BY id');
         console.log('\n👤 ПОЛЬЗОВАТЕЛИ:');
-        console.table(users.rows);
+        const usersWithMoscowTime = users.rows.map(u => ({
+            id: u.id,
+            user_name: u.user_name,
+            email: u.email,
+            password_hash: u.password_hash ? u.password_hash.substring(0, 20) + '...' : null,
+            created_at: toMoscowTime(u.created_at)
+        }));
+        console.table(usersWithMoscowTime);
 
         // Заказы
         const orders = await client.query('SELECT id, user_id, total, status, customer_name, customer_phone, created_at FROM orders ORDER BY created_at DESC');
         console.log('\n🛒 ЗАКАЗЫ:');
-        console.table(orders.rows);
+        const ordersWithMoscowTime = orders.rows.map(o => ({
+            ...o,
+            created_at: toMoscowTime(o.created_at)
+        }));
+        console.table(ordersWithMoscowTime);
 
         // Корзина
         const cart = await client.query(`

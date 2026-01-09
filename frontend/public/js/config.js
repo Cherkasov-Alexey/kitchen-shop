@@ -5,18 +5,18 @@ const API_BASE_URL = window.location.hostname === 'localhost'
 
 console.log('API_BASE_URL:', API_BASE_URL);
 
-// Функция для форматирования даты в московском времени
+// Функция для форматирования даты в московском времени (UTC+3)
 function formatMoscowDate(dateString) {
     if (!dateString) return 'Неизвестно';
     
     const utcDate = new Date(dateString);
+    // Добавляем 3 часа (UTC+3) - 3 * 60 * 60 * 1000 миллисекунд
+    const moscowDate = new Date(utcDate.getTime() + (3 * 60 * 60 * 1000));
     
-    // Используем timeZone: 'Europe/Moscow' для автоматической конвертации
-    return utcDate.toLocaleDateString('ru-RU', {
+    return moscowDate.toLocaleDateString('ru-RU', {
         year: 'numeric',
         month: 'long',
-        day: 'numeric',
-        timeZone: 'Europe/Moscow'
+        day: 'numeric'
     });
 }
 
@@ -25,13 +25,13 @@ function formatMoscowDateTime(dateString) {
     if (!dateString) return 'Неизвестно';
     
     const utcDate = new Date(dateString);
+    const moscowDate = new Date(utcDate.getTime() + (3 * 60 * 60 * 1000));
     
-    return utcDate.toLocaleString('ru-RU', {
+    return moscowDate.toLocaleString('ru-RU', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
         hour: '2-digit',
-        minute: '2-digit',
-        timeZone: 'Europe/Moscow'
+        minute: '2-digit'
     });
 }
