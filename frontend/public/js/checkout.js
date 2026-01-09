@@ -146,7 +146,7 @@ async function processOrder(formData, cart) {
     
     try {
         // Создаем заказ в базе данных
-        const orderResponse = await fetch('${API_BASE_URL}/orders', {
+        const orderResponse = await fetch(`${API_BASE_URL}/orders`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
