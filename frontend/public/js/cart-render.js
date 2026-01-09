@@ -50,7 +50,7 @@ function setupCartEventListenersOnce() {
             const currentQuantity = parseInt(quantitySpan.textContent);
             
             try {
-                await fetch('${API_BASE_URL}/cart', {
+                await fetch(`${API_BASE_URL}/cart`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -78,7 +78,7 @@ function setupCartEventListenersOnce() {
             
             try {
                 if (currentQuantity > 1) {
-                    await fetch('${API_BASE_URL}/cart', {
+                    await fetch(`${API_BASE_URL}/cart`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
