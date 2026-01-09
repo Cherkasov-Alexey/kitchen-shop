@@ -95,16 +95,13 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('user-name').textContent = currentUser.user_name || 'Не указано';
         document.getElementById('user-email').textContent = currentUser.email || 'Не указано';
         
-        // Форматируем дату с учетом UTC+3
+        // Форматируем дату с учетом московского времени (UTC+3)
         if (currentUser.created_at) {
-            const date = new Date(currentUser.created_at);
-            // Добавляем 3 часа (UTC+3)
-            date.setHours(date.getHours() + 3);
-            const formattedDate = date.toLocaleDateString('ru-RU', {
+            const formattedDate = new Date(currentUser.created_at).toLocaleDateString('ru-RU', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
-                timeZone: 'UTC'
+                timeZone: 'Europe/Moscow'
             });
             document.getElementById('user-reg-date').textContent = formattedDate;
         } else {

@@ -151,14 +151,11 @@ async function loadReviews(productId) {
         
         // Отображаем отзывы
         reviewsList.innerHTML = reviews.map(review => {
-            const date = new Date(review.created_at);
-            // Добавляем 3 часа для UTC+3
-            date.setHours(date.getHours() + 3);
-            const formattedDate = date.toLocaleDateString('ru-RU', {
+            const formattedDate = new Date(review.created_at).toLocaleDateString('ru-RU', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
-                timeZone: 'UTC'
+                timeZone: 'Europe/Moscow'
             });
             
             const stars = generateStars(review.rating);
