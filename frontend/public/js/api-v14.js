@@ -166,29 +166,21 @@ async function addToCart(productId) {
 
 // Функция для обновления кнопки "Добавить в корзину"
 async function updateAddToCartButton(productId, quantity) {
-    const container = document.querySelector(`[data-product-id="${productId}"].add-to-cart-btn`);
-    if (!container) return;
+    const btn = document.querySelector(`[data-product-id="${productId}"].add-to-cart-btn`);
+    if (!btn) return;
     
     if (quantity > 0) {
-        // Показываем кнопки плюс/минус со счётчиком
-        container.innerHTML = `
-            <button class="cart-btn cart-decrease" onclick="event.stopPropagation(); changeCartQuantity(${productId}, -1); return false;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M3 13h18v-2H3v2z"/>
-                </svg>
-            </button>
-            <span class="quantity">${quantity}</span>
-            <button class="cart-btn cart-increase" onclick="event.stopPropagation(); changeCartQuantity(${productId}, 1); return false;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-                </svg>
-            </button>
-        `;
-        container.classList.add('in-cart');
+        btn.textContent = 'Изменить количество';
+        btn.onclick = (e) => {
+            e.stopPropagation();
+            openQuantityModal(productId, quantity);
+        };
     } else {
-        // Показываем исходную кнопку "В корзину"
-        container.innerHTML = 'В корзину';
-        container.classList.remove('in-cart');
+        btn.textContent = 'В корзину';
+        btn.onclick = (e) => {
+            e.stopPropagation();
+            addToCart(productId);
+        };
     }
 }
 
@@ -231,6 +223,75 @@ async function changeCartQuantity(productId, delta) {
         updateCartCount();
     } catch (error) {
         console.error('Ошибка изменения количества:', error);
+        showNotification('Ошибка изменения количества');
+    }
+}
+
+// Функция для открытия модального окна изменения количества
+function openQuantityModal(productId, currentQuantity) {
+    const modal = document.createElement('div');
+    modal.className = 'quantity-modal-overlay';
+    modal.innerHTML = `
+        <div class="quantity-modal">
+            <h3>Изменить количество</h3>
+            <div class="quantity-modal-body">
+                <label>Количество товара:</label>
+                <input type="number" id="quantity-input" value="${currentQuantity}" min="0" max="999">
+            </div>
+            <div class="quantity-modal-actions">
+                <button class="modal-btn modal-cancel" onclick="closeQuantityModal()">Отмена</button>
+                <button class="modal-btn modal-delete" onclick="deleteFromCart(${productId})">Удалить из корзины</button>
+                <button class="modal-btn modal-save" onclick="saveQuantity(${productId})">Сохранить</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    document.getElementById('quantity-input').focus();
+}
+
+function closeQuantityModal() {
+    const modal = document.querySelector('.quantity-modal-overlay');
+    if (modal) modal.remove();
+}
+
+async function saveQuantity(productId) {
+    const input = document.getElementById('quantity-input');
+    const newQuantity = parseInt(input.value) || 0;
+    closeQuantityModal();
+    await changeCartQuantity(productId, newQuantity - (await getCartItemQuantity(productId)));
+}
+
+async function deleteFromCart(productId) {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) return;
+    
+    try {
+        await fetch(`${api.baseURL}/cart/${currentUser.id}/${productId}`, {
+            method: 'DELETE'
+        });
+        updateAddToCartButton(productId, 0);
+        updateCartCount();
+        closeQuantityModal();
+        showNotification('Товар удален из корзины');
+    } catch (error) {
+        console.error('Ошибка удаления:', error);
+        showNotification('Ошибка удаления товара');
+    }
+}
+
+async function getCartItemQuantity(productId) {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) return 0;
+    
+    try {
+        const response = await fetch(`${api.baseURL}/cart/${currentUser.id}`);
+        const cartItems = await response.json();
+        const item = cartItems.find(i => i.id == productId);
+        return item ? item.quantity : 0;
+    } catch (error) {
+        return 0;
+    }
+}
         showNotification('Ошибка изменения количества');
     }
 }

@@ -1806,6 +1806,132 @@ body.authenticated .user {
     box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
 }
 
+/* ===== МОДАЛЬНОЕ ОКНО ДЛЯ ИЗМЕНЕНИЯ КОЛИЧЕСТВА ===== */
+
+.quantity-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    backdrop-filter: blur(4px);
+}
+
+.quantity-modal {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border: 1px solid #38bdf8;
+    border-radius: 12px;
+    padding: 30px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 20px 60px rgba(56, 189, 248, 0.3);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.quantity-modal h3 {
+    color: #38bdf8;
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.quantity-modal-body {
+    margin-bottom: 25px;
+}
+
+.quantity-modal-body label {
+    display: block;
+    color: #cbd5e1;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.quantity-modal-body input {
+    width: 100%;
+    padding: 12px;
+    background: #0f172a;
+    border: 1px solid #38bdf8;
+    border-radius: 6px;
+    color: #38bdf8;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.quantity-modal-body input:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+}
+
+.quantity-modal-body input::placeholder {
+    color: #64748b;
+}
+
+.quantity-modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.modal-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+    font-size: 14px;
+}
+
+.modal-cancel {
+    background: transparent;
+    color: #94a3b8;
+    border: 1px solid #475569;
+}
+
+.modal-cancel:hover {
+    background: #1e293b;
+    border-color: #64748b;
+    color: #cbd5e1;
+}
+
+.modal-delete {
+    background: transparent;
+    color: #ef4444;
+    border: 1px solid #ef4444;
+}
+
+.modal-delete:hover {
+    background: #7f1d1d;
+    color: #fca5a5;
+}
+
+.modal-save {
+    background: linear-gradient(90deg, #3b82f6, #60a5fa);
+    color: white;
+    border: none;
+}
+
+.modal-save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(56, 189, 248, 0.4);
+}
+
 /* ===== АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ ===== */
 
 /* Планшеты и ниже (до 1024px) */
