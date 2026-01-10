@@ -73,6 +73,11 @@ async function loadCatalogProducts(categoryId = null) {
             updateAllFavoriteButtons();
         }
         
+        // Обновляем состояние кнопок корзины после рендера
+        if (typeof updateAllCartButtons !== 'undefined') {
+            await updateAllCartButtons();
+        }
+        
     } catch (error) {
         console.error('Ошибка загрузки товаров:', error);
         UIUtils.showError(container, 'Ошибка загрузки товаров');

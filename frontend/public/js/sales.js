@@ -38,6 +38,11 @@ async function loadSaleProducts() {
             await updateAllFavoriteButtons();
         }
         
+        // Обновляем состояние кнопок корзины после рендера
+        if (typeof updateAllCartButtons !== 'undefined') {
+            await updateAllCartButtons();
+        }
+        
     } catch (error) {
         console.error('Ошибка загрузки акций:', error);
         UIUtils.showError(container, 'Ошибка загрузки акций');
