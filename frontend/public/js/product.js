@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     initProductGallery();
     setupProductEvents();
     await loadRelatedProducts();
+    await checkCartStatus();
 });
 
 // Загрузка данных товара по ID из URL
@@ -230,6 +231,28 @@ async function loadRelatedProducts() {
     } catch (error) {
         console.error('Ошибка загрузки похожих товаров:', error);
         container.innerHTML = '<p>Ошибка загрузки</p>';
+    }
+}
+
+// Проверка статуса товара в корзине
+async function checkCartStatus() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) return;
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+    if (!productId) return;
+    
+    try {
+        const response = await fetch(`${API_BASE_URL}/cart/${currentUser.id}`);
+        const cartItems = await response.json();
+        const item = cartItems.find(i => i.id == productId);
+        
+        if (item && item.quantity > 0) {
+            updateAddToCartButton(productId, item.quantity);
+        }
+    } catch (error) {
+        console.error('Ошибка проверки корзины:', error);
     }
 }
 

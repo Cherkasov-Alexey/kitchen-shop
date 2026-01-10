@@ -648,6 +648,52 @@ body.authenticated .user {
     box-shadow: 0 5px 15px rgba(255,0,128,0.3);
 }
 
+.add-to-cart-btn.in-cart {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 12px;
+}
+
+.add-to-cart-btn .cart-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.add-to-cart-btn .cart-btn {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.add-to-cart-btn .cart-btn:hover {
+    background: rgba(255,255,255,0.3);
+    transform: scale(1.1);
+}
+
+.add-to-cart-btn .cart-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.add-to-cart-btn .quantity {
+    flex: 1;
+    text-align: center;
+    font-weight: 600;
+    font-size: 16px;
+}
+
 .favorite-btn {
     background: rgba(255,255,255,0.1);
     border: 2px solid rgba(0,255,255,0.3);
@@ -863,6 +909,9 @@ body.authenticated .user {
     border-radius: 30px;
     cursor: pointer;
     transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .btn-favorite:hover {
