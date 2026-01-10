@@ -664,7 +664,7 @@ body.authenticated .user {
 }
 
 .add-to-cart-btn .cart-btn {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.3);
     border: none;
     width: 32px;
     height: 32px;
@@ -678,7 +678,7 @@ body.authenticated .user {
 }
 
 .add-to-cart-btn .cart-btn:hover {
-    background: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.4);
     transform: scale(1.1);
 }
 
@@ -693,6 +693,7 @@ body.authenticated .user {
     text-align: center;
     font-weight: 600;
     font-size: 16px;
+    color: white;
 }
 
 .favorite-btn {
