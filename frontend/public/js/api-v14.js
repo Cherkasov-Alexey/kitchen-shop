@@ -292,9 +292,6 @@ async function getCartItemQuantity(productId) {
         return 0;
     }
 }
-        showNotification('Ошибка изменения количества');
-    }
-}
 
 // Функции для работы с избранным
 async function toggleFavorite(productId) {

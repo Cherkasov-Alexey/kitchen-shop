@@ -645,11 +645,6 @@ body.authenticated .user {
     transform: translateY(-2px);
     box-shadow: 0 5px 20px rgba(56,189,248,0.4);
 }
-    font-weight: 600;
-    font-size: 16px;
-    color: white;
-    min-width: 30px;
-}
 
 .favorite-btn {
     background: rgba(255,255,255,0.1);
