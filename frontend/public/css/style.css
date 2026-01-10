@@ -639,9 +639,6 @@ body.authenticated .user {
     cursor: pointer;
     transition: all 0.3s;
     flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .add-to-cart-btn:hover {
@@ -650,47 +647,41 @@ body.authenticated .user {
 }
 
 .add-to-cart-btn.in-cart {
-    background: transparent;
-    padding: 8px 12px;
-    gap: 8px;
-    flex: 1;
-    border: 1px solid rgba(59,130,246,0.5);
-    border-radius: 12px;
-}
-
-.add-to-cart-btn.in-cart:hover {
-    background: rgba(59,130,246,0.1);
-    box-shadow: none;
-    transform: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 10px 12px;
 }
 
 .add-to-cart-btn .cart-btn {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.3);
     border: none;
-    width: 36px;
-    height: 36px;
-    border-radius: 6px;
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s;
     flex-shrink: 0;
-    color: #ffffff;
+    color: #000000;
+    padding: 0;
 }
 
 .add-to-cart-btn .cart-btn:hover {
-    background: rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.4);
     transform: scale(1.1);
 }
 
 .add-to-cart-btn .quantity {
-    flex: 1;
+    flex-shrink: 0;
     text-align: center;
     font-weight: 600;
     font-size: 16px;
     color: white;
-    min-width: 40px;
+    min-width: 30px;
 }
 
 .favorite-btn {
@@ -893,9 +884,6 @@ body.authenticated .user {
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .btn-primary:hover {
@@ -904,36 +892,37 @@ body.authenticated .user {
 }
 
 .btn-primary.in-cart {
-    background: transparent;
-    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     gap: 8px;
-    border: 1px solid rgba(59,130,246,0.5);
-    border-radius: 12px;
+    padding: 10px 12px;
 }
 
-.btn-primary.in-cart:hover {
-    background: rgba(59,130,246,0.1);
-    box-shadow: none;
-    transform: none;
+.btn-primary .cart-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
 }
 
 .btn-primary .cart-btn {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.3);
     border: none;
-    width: 36px;
-    height: 36px;
-    border-radius: 6px;
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s;
     flex-shrink: 0;
-    color: #ffffff;
+    color: #000000;
 }
 
 .btn-primary .cart-btn:hover {
-    background: rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.4);
     transform: scale(1.1);
 }
 
@@ -943,7 +932,6 @@ body.authenticated .user {
     font-weight: 600;
     font-size: 16px;
     color: white;
-    min-width: 40px;
 }
 
 .btn-favorite {
@@ -1258,62 +1246,17 @@ body.authenticated .user {
     padding: 16px;
     font-size: 18px;
     border-radius: 30px;
-    background: linear-gradient(90deg, #3b82f6, #60a5fa);
+    background: linear-gradient(90deg, #38bdf8, #a78bfa);
     border: none;
     cursor: pointer;
     transition: 0.3s;
     color: white;
     font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
 }
 
 .checkout-btn:hover {
     box-shadow: 0 0 30px rgba(56,189,248,0.5);
     transform: translateY(-2px);
-}
-
-.checkout-btn.in-cart {
-    background: transparent;
-    border: 1px solid rgba(59,130,246,0.5);
-    border-radius: 16px;
-}
-
-.checkout-btn.in-cart:hover {
-    background: rgba(59,130,246,0.1);
-    box-shadow: none;
-    transform: none;
-}
-
-.checkout-btn .cart-btn {
-    background: rgba(255,255,255,0.2);
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    flex-shrink: 0;
-    color: #ffffff;
-}
-
-.checkout-btn .cart-btn:hover {
-    background: rgba(255,255,255,0.35);
-    transform: scale(1.1);
-}
-
-.checkout-btn .quantity {
-    flex: 1;
-    text-align: center;
-    font-weight: 600;
-    font-size: 18px;
-    color: white;
-    min-width: 50px;
 }
 
 .quantity-controls {

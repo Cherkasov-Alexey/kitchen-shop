@@ -95,7 +95,7 @@ class UIUtils {
                     </div>
                 </div>
                 <div class="product-actions" onclick="event.stopPropagation()">
-                    <button class="add-to-cart-btn" data-product-id="${product.id}" type="button">В корзину</button>
+                    <button class="add-to-cart-btn" data-product-id="${product.id}" onclick="event.stopPropagation(); addToCart(${product.id}); return false;">В корзину</button>
                     <button class="favorite-btn ${isFavorite ? 'active' : ''}" data-product-id="${product.id}" onclick="event.stopPropagation(); toggleFavorite(${product.id}); return false;">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                             ${isFavorite 
@@ -166,37 +166,30 @@ async function addToCart(productId) {
 
 // Функция для обновления кнопки "Добавить в корзину"
 async function updateAddToCartButton(productId, quantity) {
-    // Ищем кнопку в карточке товара и на странице товара
-    const buttons = document.querySelectorAll(`[data-product-id="${productId}"].add-to-cart-btn, #add-to-cart-btn[data-id="${productId}"]`);
+    const container = document.querySelector(`[data-product-id="${productId}"].add-to-cart-btn`);
+    if (!container) return;
     
-    buttons.forEach(btn => {
-        if (quantity > 0) {
-            // Показываем плюс/минус
-            btn.classList.add('in-cart');
-            btn.innerHTML = `
-                <button class="cart-btn cart-decrease" onclick="event.stopPropagation(); changeCartQuantity(${productId}, -1); return false;" type="button">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 13H5v-2h14v2z" fill="currentColor"/>
-                    </svg>
-                </button>
-                <span class="quantity">${quantity}</span>
-                <button class="cart-btn cart-increase" onclick="event.stopPropagation(); changeCartQuantity(${productId}, 1); return false;" type="button">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="currentColor"/>
-                    </svg>
-                </button>
-            `;
-        } else {
-            // Показываем кнопку добавления
-            btn.classList.remove('in-cart');
-            btn.innerHTML = 'В корзину';
-            btn.onclick = function(e) {
-                e.stopPropagation();
-                addToCart(productId);
-                return false;
-            };
-        }
-    });
+    if (quantity > 0) {
+        // Показываем кнопки плюс/минус со счётчиком
+        container.innerHTML = `
+            <button class="cart-btn cart-decrease" onclick="event.stopPropagation(); changeCartQuantity(${productId}, -1); return false;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 13h18v-2H3v2z"/>
+                </svg>
+            </button>
+            <span class="quantity">${quantity}</span>
+            <button class="cart-btn cart-increase" onclick="event.stopPropagation(); changeCartQuantity(${productId}, 1); return false;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                </svg>
+            </button>
+        `;
+        container.classList.add('in-cart');
+    } else {
+        // Показываем исходную кнопку "В корзину"
+        container.innerHTML = 'В корзину';
+        container.classList.remove('in-cart');
+    }
 }
 
 // Функция для изменения количества товара в корзине
@@ -382,19 +375,11 @@ async function updateAllCartButtons(cartItems) {
         if (!productId) return;
         
         const cartItem = cartItems.find(item => item.id == productId);
-        const quantity = (cartItem && cartItem.quantity > 0) ? cartItem.quantity : 0;
-        updateAddToCartButton(productId, quantity);
-        
-        // Добавляем обработчик события для кнопки
-        btn.removeEventListener('click', btn._clickHandler);
-        btn._clickHandler = function(e) {
-            e.stopPropagation();
-            if (!btn.classList.contains('in-cart')) {
-                addToCart(productId);
-            }
-            return false;
-        };
-        btn.addEventListener('click', btn._clickHandler);
+        if (cartItem && cartItem.quantity > 0) {
+            updateAddToCartButton(productId, cartItem.quantity);
+        } else {
+            updateAddToCartButton(productId, 0);
+        }
     });
 }
 
