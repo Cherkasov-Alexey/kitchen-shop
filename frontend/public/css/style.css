@@ -683,11 +683,11 @@ body.authenticated .user {
 .add-to-cart-btn .cart-btn svg {
     width: 18px;
     height: 18px;
-    fill: #ffffff !important;
+    fill: #000000 !important;
 }
 
 .add-to-cart-btn .cart-btn svg path {
-    fill: #ffffff !important;
+    fill: #000000 !important;
 }
 
 .add-to-cart-btn .quantity {
@@ -747,6 +747,14 @@ body.authenticated .user {
 .product-card .add-to-cart:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(56,189,248,0.4);
+}
+
+.product-card .add-to-cart svg {
+    fill: #ffffff !important;
+}
+
+.product-card .add-to-cart svg path {
+    fill: #ffffff !important;
 }
 
 /* Кнопка избранного в карточке */
@@ -942,7 +950,7 @@ body.authenticated .user {
 .btn-primary .cart-btn svg {
     width: 18px;
     height: 18px;
-    fill: #ffffff !important;
+    fill: #000000 !important;
 }
 
 .btn-primary .quantity {
@@ -1276,6 +1284,14 @@ body.authenticated .user {
 .checkout-btn:hover {
     box-shadow: 0 0 30px rgba(56,189,248,0.5);
     transform: translateY(-2px);
+}
+
+.checkout-btn svg {
+    fill: #ffffff !important;
+}
+
+.checkout-btn svg path {
+    fill: #ffffff !important;
 }
 
 .quantity-controls {
