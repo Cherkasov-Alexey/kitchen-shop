@@ -675,7 +675,6 @@ body.authenticated .user {
     cursor: pointer;
     transition: all 0.2s;
     flex-shrink: 0;
-    color: #000000;
 }
 
 .add-to-cart-btn .cart-btn:hover {
@@ -686,6 +685,7 @@ body.authenticated .user {
 .add-to-cart-btn .cart-btn svg {
     width: 18px;
     height: 18px;
+    fill: #000000;
 }
 
 .add-to-cart-btn .quantity {
@@ -939,6 +939,7 @@ body.authenticated .user {
 .btn-primary .cart-btn svg {
     width: 18px;
     height: 18px;
+    fill: #000000;
 }
 
 .btn-primary .quantity {
