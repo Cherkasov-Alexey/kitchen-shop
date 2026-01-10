@@ -750,11 +750,11 @@ body.authenticated .user {
 }
 
 .product-card .add-to-cart svg {
-    fill: #ffffff !important;
+    fill: #000000 !important;
 }
 
 .product-card .add-to-cart svg path {
-    fill: #ffffff !important;
+    fill: #000000 !important;
 }
 
 /* Кнопка избранного в карточке */
@@ -1287,11 +1287,11 @@ body.authenticated .user {
 }
 
 .checkout-btn svg {
-    fill: #ffffff !important;
+    fill: #000000 !important;
 }
 
 .checkout-btn svg path {
-    fill: #ffffff !important;
+    fill: #000000 !important;
 }
 
 .quantity-controls {
