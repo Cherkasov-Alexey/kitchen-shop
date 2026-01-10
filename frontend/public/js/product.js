@@ -160,7 +160,9 @@ function setupProductEvents() {
     
     const addToCartBtn = document.getElementById('add-to-cart-btn');
     if (addToCartBtn && productId) {
+        // Устанавливаем оба атрибута для совместимости
         addToCartBtn.dataset.id = productId;
+        addToCartBtn.dataset.productId = productId;
         addToCartBtn.addEventListener('click', function() {
             const prodId = parseInt(this.dataset.id);
             
