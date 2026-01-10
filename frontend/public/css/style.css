@@ -630,7 +630,7 @@ body.authenticated .user {
 }
 
 .add-to-cart-btn {
-    background: linear-gradient(90deg, #38bdf8, #a78bfa);
+    background: linear-gradient(90deg, #3b82f6, #60a5fa);
     border: none;
     padding: 14px 28px;
     border-radius: 30px;
@@ -890,7 +890,7 @@ body.authenticated .user {
 }
 
 .btn-primary {
-    background: linear-gradient(90deg, #38bdf8, #a78bfa);
+    background: linear-gradient(90deg, #3b82f6, #60a5fa);
     border: none;
     padding: 14px 28px;
     border-radius: 30px;
