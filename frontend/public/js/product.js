@@ -155,13 +155,17 @@ function changeMainImage(src, alt) {
 
 // Настройка обработчиков событий товара
 function setupProductEvents() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+    
     const addToCartBtn = document.getElementById('add-to-cart-btn');
-    if (addToCartBtn) {
+    if (addToCartBtn && productId) {
+        addToCartBtn.dataset.id = productId;
         addToCartBtn.addEventListener('click', function() {
-            const productId = parseInt(this.dataset.id);
+            const prodId = parseInt(this.dataset.id);
             
             if (typeof addToCart !== 'undefined') {
-                addToCart(productId);
+                addToCart(prodId);
             }
         });
     }

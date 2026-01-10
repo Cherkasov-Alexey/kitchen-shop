@@ -166,7 +166,18 @@ async function addToCart(productId) {
 
 // Функция для обновления кнопки "Добавить в корзину"
 async function updateAddToCartButton(productId, quantity) {
-    const btn = document.querySelector(`[data-product-id="${productId}"].add-to-cart-btn`);
+    // Пробуем найти кнопку в карточке товара
+    let btn = document.querySelector(`[data-product-id="${productId}"].add-to-cart-btn`);
+    
+    // Если не нашли, пробуем на странице товара
+    if (!btn) {
+        btn = document.getElementById('add-to-cart-btn');
+        // Проверяем, что это тот же товар
+        if (btn && btn.dataset.id && parseInt(btn.dataset.id) !== productId) {
+            return;
+        }
+    }
+    
     if (!btn) return;
     
     if (quantity > 0) {
@@ -176,7 +187,7 @@ async function updateAddToCartButton(productId, quantity) {
             openQuantityModal(productId, quantity);
         };
     } else {
-        btn.textContent = 'В корзину';
+        btn.textContent = btn.id === 'add-to-cart-btn' ? 'Добавить в корзину' : 'В корзину';
         btn.onclick = (e) => {
             e.stopPropagation();
             addToCart(productId);
