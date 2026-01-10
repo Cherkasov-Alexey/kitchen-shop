@@ -686,6 +686,10 @@ body.authenticated .user {
     fill: #ffffff !important;
 }
 
+.add-to-cart-btn .cart-btn svg path {
+    fill: #ffffff !important;
+}
+
 .add-to-cart-btn .quantity {
     flex: 1;
     text-align: center;
