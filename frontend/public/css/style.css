@@ -630,7 +630,7 @@ body.authenticated .user {
 }
 
 .add-to-cart-btn {
-    background: linear-gradient(45deg, var(--accent-magenta), #f472b6);
+    background: linear-gradient(90deg, #38bdf8, #a78bfa);
     border: none;
     padding: 14px 28px;
     border-radius: 30px;
@@ -643,7 +643,7 @@ body.authenticated .user {
 
 .add-to-cart-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 20px rgba(255,0,128,0.4);
+    box-shadow: 0 5px 20px rgba(56,189,248,0.4);
 }
 
 .add-to-cart-btn.in-cart {
@@ -683,11 +683,11 @@ body.authenticated .user {
 .add-to-cart-btn .cart-btn svg {
     width: 18px;
     height: 18px;
-    fill: #ffffff !important;
+    fill: #000000 !important;
 }
 
 .add-to-cart-btn .cart-btn svg path {
-    fill: #ffffff !important;
+    fill: #000000 !important;
 }
 
 .add-to-cart-btn .quantity {
