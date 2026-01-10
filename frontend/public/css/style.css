@@ -683,7 +683,7 @@ body.authenticated .user {
 .add-to-cart-btn .cart-btn svg {
     width: 18px;
     height: 18px;
-    fill: #000000 !important;
+    fill: #ffffff !important;
 }
 
 .add-to-cart-btn .quantity {
