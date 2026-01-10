@@ -631,21 +631,19 @@ body.authenticated .user {
 
 .add-to-cart-btn {
     background: linear-gradient(45deg, var(--accent-magenta), #f472b6);
-    color: white;
     border: none;
-    padding: 10px 16px;
-    border-radius: 6px;
+    padding: 14px 28px;
+    border-radius: 30px;
+    color: white;
+    font-weight: bold;
     cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
     transition: all 0.3s;
     flex: 1;
 }
 
 .add-to-cart-btn:hover {
-    background: linear-gradient(45deg, #e91e63, var(--accent-magenta));
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255,0,128,0.3);
+    box-shadow: 0 5px 20px rgba(255,0,128,0.4);
 }
 
 .add-to-cart-btn.in-cart {
