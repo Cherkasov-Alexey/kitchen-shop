@@ -96,7 +96,13 @@ class UIUtils {
                 </div>
                 <div class="product-actions" onclick="event.stopPropagation()">
                     <button class="add-to-cart-btn" data-product-id="${product.id}" onclick="event.stopPropagation(); addToCart(${product.id}); return false;">В корзину</button>
-                    <button class="favorite-btn ${isFavorite ? 'active' : ''}" data-product-id="${product.id}" onclick="event.stopPropagation(); toggleFavorite(${product.id}); return false;">${isFavorite ? '♥' : '♡'}</button>
+                    <button class="favorite-btn ${isFavorite ? 'active' : ''}" data-product-id="${product.id}" onclick="event.stopPropagation(); toggleFavorite(${product.id}); return false;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            ${isFavorite 
+                                ? '<path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"/>'
+                                : '<path d="M12.1,18.55L12,18.65L11.89,18.55C7.14,14.24 4,11.39 4,8.5C4,6.5 5.5,5 7.5,5C9.04,5 10.54,6 11.07,7.36H12.93C13.46,6 14.96,5 16.5,5C18.5,5 20,6.5 20,8.5C20,11.39 16.86,14.24 12.1,18.55M16.5,3C14.76,3 13.09,3.81 12,5.08C10.91,3.81 9.24,3 7.5,3C4.42,3 2,5.41 2,8.5C2,12.27 5.4,15.36 10.55,20.03L12,21.35L13.45,20.03C18.6,15.36 22,12.27 22,8.5C22,5.41 19.58,3 16.5,3Z"/>'}
+                        </svg>
+                    </button>
                 </div>
             </div>
         `;
@@ -212,11 +218,15 @@ function updateFavoriteButton(productId, isFavorite) {
     const cardButtons = document.querySelectorAll(`[data-product-id="${productId}"]`);
     cardButtons.forEach(btn => {
         if (btn.classList.contains('favorite-btn')) {
-            btn.textContent = isFavorite ? '♥' : '♡';
-            if (isFavorite) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
+            const svg = btn.querySelector('svg');
+            if (svg) {
+                if (isFavorite) {
+                    svg.innerHTML = '<path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"/>';
+                    btn.classList.add('active');
+                } else {
+                    svg.innerHTML = '<path d="M12.1,18.55L12,18.65L11.89,18.55C7.14,14.24 4,11.39 4,8.5C4,6.5 5.5,5 7.5,5C9.04,5 10.54,6 11.07,7.36H12.93C13.46,6 14.96,5 16.5,5C18.5,5 20,6.5 20,8.5C20,11.39 16.86,14.24 12.1,18.55M16.5,3C14.76,3 13.09,3.81 12,5.08C10.91,3.81 9.24,3 7.5,3C4.42,3 2,5.41 2,8.5C2,12.27 5.4,15.36 10.55,20.03L12,21.35L13.45,20.03C18.6,15.36 22,12.27 22,8.5C22,5.41 19.58,3 16.5,3Z"/>';
+                    btn.classList.remove('active');
+                }
             }
         }
     });
@@ -224,11 +234,18 @@ function updateFavoriteButton(productId, isFavorite) {
     // Обновляем кнопку на странице товара
     const productPageBtn = document.getElementById('favorite-btn');
     if (productPageBtn && parseInt(productPageBtn.dataset.id) === productId) {
-        productPageBtn.innerHTML = isFavorite ? '♥ В избранном' : '♡ В избранное';
-        if (isFavorite) {
-            productPageBtn.classList.add('active');
-        } else {
-            productPageBtn.classList.remove('active');
+        const svg = productPageBtn.querySelector('svg');
+        const textSpan = productPageBtn.querySelector('.btn-text');
+        if (svg && textSpan) {
+            if (isFavorite) {
+                svg.innerHTML = '<path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"/>';
+                textSpan.textContent = 'В избранном';
+                productPageBtn.classList.add('active');
+            } else {
+                svg.innerHTML = '<path d="M12.1,18.55L12,18.65L11.89,18.55C7.14,14.24 4,11.39 4,8.5C4,6.5 5.5,5 7.5,5C9.04,5 10.54,6 11.07,7.36H12.93C13.46,6 14.96,5 16.5,5C18.5,5 20,6.5 20,8.5C20,11.39 16.86,14.24 12.1,18.55M16.5,3C14.76,3 13.09,3.81 12,5.08C10.91,3.81 9.24,3 7.5,3C4.42,3 2,5.41 2,8.5C2,12.27 5.4,15.36 10.55,20.03L12,21.35L13.45,20.03C18.6,15.36 22,12.27 22,8.5C22,5.41 19.58,3 16.5,3Z"/>';
+                textSpan.textContent = 'В избранное';
+                productPageBtn.classList.remove('active');
+            }
         }
     }
 }
@@ -303,12 +320,15 @@ async function updateAllFavoriteButtons() {
         // Обновляем кнопки на карточках товаров
         document.querySelectorAll('.favorite-btn').forEach(btn => {
             const productId = parseInt(btn.dataset.productId);
-            if (favoriteIds.includes(productId)) {
-                btn.textContent = '♥';
-                btn.classList.add('active');
-            } else {
-                btn.textContent = '♡';
-                btn.classList.remove('active');
+            const svg = btn.querySelector('svg');
+            if (svg) {
+                if (favoriteIds.includes(productId)) {
+                    svg.innerHTML = '<path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"/>';
+                    btn.classList.add('active');
+                } else {
+                    svg.innerHTML = '<path d="M12.1,18.55L12,18.65L11.89,18.55C7.14,14.24 4,11.39 4,8.5C4,6.5 5.5,5 7.5,5C9.04,5 10.54,6 11.07,7.36H12.93C13.46,6 14.96,5 16.5,5C18.5,5 20,6.5 20,8.5C20,11.39 16.86,14.24 12.1,18.55M16.5,3C14.76,3 13.09,3.81 12,5.08C10.91,3.81 9.24,3 7.5,3C4.42,3 2,5.41 2,8.5C2,12.27 5.4,15.36 10.55,20.03L12,21.35L13.45,20.03C18.6,15.36 22,12.27 22,8.5C22,5.41 19.58,3 16.5,3Z"/>';
+                    btn.classList.remove('active');
+                }
             }
         });
         
@@ -316,12 +336,18 @@ async function updateAllFavoriteButtons() {
         const productPageBtn = document.getElementById('favorite-btn');
         if (productPageBtn) {
             const productId = parseInt(productPageBtn.dataset.id);
-            if (favoriteIds.includes(productId)) {
-                productPageBtn.innerHTML = '♥ В избранном';
-                productPageBtn.classList.add('active');
-            } else {
-                productPageBtn.innerHTML = '♡ В избранное';
-                productPageBtn.classList.remove('active');
+            const svg = productPageBtn.querySelector('svg');
+            const textSpan = productPageBtn.querySelector('.btn-text');
+            if (svg && textSpan) {
+                if (favoriteIds.includes(productId)) {
+                    svg.innerHTML = '<path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"/>';
+                    textSpan.textContent = 'В избранном';
+                    productPageBtn.classList.add('active');
+                } else {
+                    svg.innerHTML = '<path d="M12.1,18.55L12,18.65L11.89,18.55C7.14,14.24 4,11.39 4,8.5C4,6.5 5.5,5 7.5,5C9.04,5 10.54,6 11.07,7.36H12.93C13.46,6 14.96,5 16.5,5C18.5,5 20,6.5 20,8.5C20,11.39 16.86,14.24 12.1,18.55M16.5,3C14.76,3 13.09,3.81 12,5.08C10.91,3.81 9.24,3 7.5,3C4.42,3 2,5.41 2,8.5C2,12.27 5.4,15.36 10.55,20.03L12,21.35L13.45,20.03C18.6,15.36 22,12.27 22,8.5C22,5.41 19.58,3 16.5,3Z"/>';
+                    textSpan.textContent = 'В избранное';
+                    productPageBtn.classList.remove('active');
+                }
             }
         }
     } catch (error) {
