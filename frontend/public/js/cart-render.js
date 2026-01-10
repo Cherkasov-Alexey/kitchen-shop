@@ -21,8 +21,9 @@ function setupCartEventListenersOnce() {
         if (!currentUser) return;
         
         // Удаление товара
-        if (e.target.classList.contains('remove')) {
-            const productId = e.target.dataset.id;
+        const removeBtn = e.target.closest('.remove');
+        if (removeBtn) {
+            const productId = removeBtn.dataset.id;
             
             try {
                 await fetch(`${API_BASE_URL}/cart/${currentUser.id}/${productId}`, {
