@@ -346,9 +346,41 @@ async function updateCartCount() {
             counter.textContent = totalItems;
             counter.style.display = totalItems > 0 ? 'block' : 'none';
         });
+        
+        // Обновляем все кнопки корзины на странице
+        await updateAllCartButtons(cart);
     } catch (error) {
         console.error('Ошибка обновления счетчика:', error);
     }
+}
+
+// Обновление всех кнопок корзины на странице
+async function updateAllCartButtons(cartItems) {
+    if (!cartItems) {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (!currentUser) return;
+        
+        try {
+            const response = await fetch(`${api.baseURL}/cart/${currentUser.id}`);
+            cartItems = await response.json();
+        } catch (error) {
+            console.error('Ошибка загрузки корзины:', error);
+            return;
+        }
+    }
+    
+    // Обновляем все кнопки add-to-cart на странице
+    document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+        const productId = parseInt(btn.dataset.productId || btn.dataset.id);
+        if (!productId) return;
+        
+        const cartItem = cartItems.find(item => item.id == productId);
+        if (cartItem && cartItem.quantity > 0) {
+            updateAddToCartButton(productId, cartItem.quantity);
+        } else {
+            updateAddToCartButton(productId, 0);
+        }
+    });
 }
 
 // Показать уведомление

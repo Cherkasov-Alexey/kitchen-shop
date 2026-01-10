@@ -3,6 +3,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadCategories();
     await loadFeaturedProducts();
     initAuth();
+    
+    // Обновляем счетчик корзины и кнопки при загрузке
+    if (typeof updateCartCount !== 'undefined') {
+        await updateCartCount();
+    }
 });
 
 // Загрузка категорий в виде простых кнопок

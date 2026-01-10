@@ -1,6 +1,11 @@
 // Страница акций
 document.addEventListener('DOMContentLoaded', async () => {
     await loadSaleProducts();
+    
+    // Обновляем счетчик корзины и кнопки при загрузке
+    if (typeof updateCartCount !== 'undefined') {
+        await updateCartCount();
+    }
 });
 
 // Загрузка товаров со скидками
