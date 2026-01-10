@@ -96,7 +96,7 @@ class UIUtils {
                 </div>
                 <div class="product-actions" onclick="event.stopPropagation()">
                     <button class="add-to-cart-btn" data-product-id="${product.id}" onclick="event.stopPropagation(); addToCart(${product.id}); return false;">В корзину</button>
-                    <button class="favorite-btn ${isFavorite ? 'active' : ''}" data-product-id="${product.id}" onclick="event.stopPropagation(); toggleFavorite(${product.id}); return false;">${isFavorite ? '❤️' : '🤍'}</button>
+                    <button class="favorite-btn ${isFavorite ? 'active' : ''}" data-product-id="${product.id}" onclick="event.stopPropagation(); toggleFavorite(${product.id}); return false;">${isFavorite ? '♥' : '♡'}</button>
                 </div>
             </div>
         `;
@@ -212,7 +212,7 @@ function updateFavoriteButton(productId, isFavorite) {
     const cardButtons = document.querySelectorAll(`[data-product-id="${productId}"]`);
     cardButtons.forEach(btn => {
         if (btn.classList.contains('favorite-btn')) {
-            btn.textContent = isFavorite ? '❤️' : '🤍';
+            btn.textContent = isFavorite ? '♥' : '♡';
             if (isFavorite) {
                 btn.classList.add('active');
             } else {
@@ -224,7 +224,7 @@ function updateFavoriteButton(productId, isFavorite) {
     // Обновляем кнопку на странице товара
     const productPageBtn = document.getElementById('favorite-btn');
     if (productPageBtn && parseInt(productPageBtn.dataset.id) === productId) {
-        productPageBtn.innerHTML = isFavorite ? '❤️ В избранном' : '🤍 В избранное';
+        productPageBtn.innerHTML = isFavorite ? '♥ В избранном' : '♡ В избранное';
         if (isFavorite) {
             productPageBtn.classList.add('active');
         } else {
@@ -304,10 +304,10 @@ async function updateAllFavoriteButtons() {
         document.querySelectorAll('.favorite-btn').forEach(btn => {
             const productId = parseInt(btn.dataset.productId);
             if (favoriteIds.includes(productId)) {
-                btn.textContent = '❤️';
+                btn.textContent = '♥';
                 btn.classList.add('active');
             } else {
-                btn.textContent = '🤍';
+                btn.textContent = '♡';
                 btn.classList.remove('active');
             }
         });
@@ -317,10 +317,10 @@ async function updateAllFavoriteButtons() {
         if (productPageBtn) {
             const productId = parseInt(productPageBtn.dataset.id);
             if (favoriteIds.includes(productId)) {
-                productPageBtn.innerHTML = '❤️ В избранном';
+                productPageBtn.innerHTML = '♥ В избранном';
                 productPageBtn.classList.add('active');
             } else {
-                productPageBtn.innerHTML = '🤍 В избранное';
+                productPageBtn.innerHTML = '♡ В избранное';
                 productPageBtn.classList.remove('active');
             }
         }
