@@ -664,10 +664,11 @@ app.post('/api/reviews', async (req, res) => {
 // Запуск сервера
 connectDB().then(() => {
     app.listen(PORT, () => {
-        console.log(`🚀 Сервер запущен на http://localhost:${PORT}`);
+        const deployedUrl = process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`;
+        console.log(`🚀 Сервер запущен на ${deployedUrl}`);
         console.log(`📱 Доступные страницы:`);
-        console.log(`   http://localhost:${PORT} - Главная`);
-        console.log(`   http://localhost:${PORT}/catalog.html - Каталог`);
-        console.log(`   http://localhost:${PORT}/product.html - Страница товара`);
+        console.log(`   ${deployedUrl} - Главная`);
+        console.log(`   ${deployedUrl}/catalog.html - Каталог`);
+        console.log(`   ${deployedUrl}/product.html - Страница товара`);
     });
 });
