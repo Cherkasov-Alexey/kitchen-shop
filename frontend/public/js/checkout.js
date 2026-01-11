@@ -1,4 +1,22 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Показать кнопки профиля и выхода для авторизованных пользователей
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser) {
+        const authButtons = document.getElementById('auth-buttons');
+        if (authButtons) {
+            authButtons.style.display = 'flex';
+        }
+    }
+    
+    // Обработчик выхода
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        });
+    }
+    
     renderOrderSummary();
     setupPaymentMethods();
     setupFormSubmit();
