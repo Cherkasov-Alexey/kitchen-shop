@@ -23,21 +23,21 @@ async function viewRenderDatabase() {
 
     try {
         await client.connect();
-        console.log('✅ Подключено к базе данных Render\n');
+        console.log('Подключено к базе данных Render\n');
 
         // Категории
         const categories = await client.query('SELECT * FROM categories ORDER BY id');
-        console.log('📂 КАТЕГОРИИ:');
+        console.log('КАТЕГОРИИ:');
         console.table(categories.rows);
 
         // Товары
         const products = await client.query('SELECT id, product_name, price, old_price, category_id FROM products ORDER BY id');
-        console.log('\n📦 ТОВАРЫ:');
+        console.log('\n ТОВАРЫ:');
         console.table(products.rows);
 
         // Пользователи
         const users = await client.query('SELECT id, user_name, email, password_hash, created_at FROM users ORDER BY id');
-        console.log('\n👤 ПОЛЬЗОВАТЕЛИ:');
+        console.log('\n ПОЛЬЗОВАТЕЛИ:');
         const usersWithMoscowTime = users.rows.map(u => ({
             id: u.id,
             user_name: u.user_name,
@@ -49,7 +49,7 @@ async function viewRenderDatabase() {
 
         // Заказы
         const orders = await client.query('SELECT id, user_id, total, status, customer_name, customer_phone, created_at FROM orders ORDER BY created_at DESC');
-        console.log('\n🛒 ЗАКАЗЫ:');
+        console.log('\n ЗАКАЗЫ:');
         const ordersWithMoscowTime = orders.rows.map(o => ({
             ...o,
             created_at: toMoscowTime(o.created_at)
@@ -64,7 +64,7 @@ async function viewRenderDatabase() {
             JOIN products p ON c.product_id = p.id
             ORDER BY c.user_id
         `);
-        console.log('\n🛒 КОРЗИНА:');
+        console.log('\n КОРЗИНА:');
         if (cart.rows.length > 0) {
             console.table(cart.rows);
         } else {
@@ -79,7 +79,7 @@ async function viewRenderDatabase() {
             JOIN products p ON f.product_id = p.id
             ORDER BY f.user_id
         `);
-        console.log('\n❤️ ИЗБРАННОЕ:');
+        console.log('\n ИЗБРАННОЕ:');
         if (favorites.rows.length > 0) {
             console.table(favorites.rows);
         } else {
@@ -94,7 +94,7 @@ async function viewRenderDatabase() {
             JOIN products p ON r.product_id = p.id
             ORDER BY r.created_at DESC
         `);
-        console.log('\n⭐ ОТЗЫВЫ:');
+        console.log('\ ОТЗЫВЫ:');
         if (reviews.rows.length > 0) {
             const reviewsWithMoscowTime = reviews.rows.map(r => ({
                 id: r.id,
@@ -112,10 +112,10 @@ async function viewRenderDatabase() {
         }
 
     } catch (error) {
-        console.error('❌ Ошибка:', error.message);
+        console.error(' Ошибка:', error.message);
     } finally {
         await client.end();
-        console.log('\n✅ Соединение закрыто');
+        console.log('\n Соединение закрыто');
     }
 }
 

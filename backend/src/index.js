@@ -24,7 +24,7 @@ app.use(express.static(path.join(__dirname, '../../frontend/public')));
 let dbConfig;
 if (process.env.DATABASE_URL) {
     dbConfig = { connectionString: process.env.DATABASE_URL };
-    console.log('🔌 Using DATABASE_URL for Postgres connection');
+    console.log('Using DATABASE_URL for Postgres connection');
 } else {
     dbConfig = {
         host: process.env.DB_HOST || 'localhost',
@@ -77,13 +77,13 @@ async function connectDB() {
     try {
         // Подключаемся через PostgreSQL адаптер
         db = await dbAdapter.connect(dbConfig);
-        console.log('✅ Подключение к PostgreSQL установлено');
+        console.log('Подключение к PostgreSQL установлено');
 
         // Получаем количество товаров
         const [rows] = await db.execute('SELECT COUNT(*) as count FROM products');
-        console.log(`📦 В базе данных ${rows[0].count} товаров`);
+        console.log('В базе данных ${rows[0].count} товаров');
     } catch (error) {
-        console.error('❌ Ошибка подключения к базе данных:', error);
+        console.error('Ошибка подключения к базе данных:', error);
         console.error('Продолжаю запуск сервера без подключения к БД (режим деградации).');
         db = null;
     }
@@ -665,10 +665,10 @@ app.post('/api/reviews', async (req, res) => {
 connectDB().then(() => {
     app.listen(PORT, () => {
         const deployedUrl = process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`;
-        console.log(`🚀 Сервер запущен на ${deployedUrl}`);
-        console.log(`📱 Доступные страницы:`);
-        console.log(`   ${deployedUrl} - Главная`);
-        console.log(`   ${deployedUrl}/catalog.html - Каталог`);
-        console.log(`   ${deployedUrl}/product.html - Страница товара`);
+        console.log('Сервер запущен на ${deployedUrl}');
+        console.log('Доступные страницы:');
+        console.log('${deployedUrl} - Главная');
+        console.log('${deployedUrl}/catalog.html - Каталог');
+        console.log('${deployedUrl}/product.html - Страница товара');
     });
 });
