@@ -78,8 +78,8 @@ function setupFormSubmit() {
         
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if (!currentUser) {
-            alert('Необходимо войти в аккаунт');
-            window.location.href = 'login.html';
+            showNotification('Необходимо войти в аккаунт', 'error');
+            setTimeout(() => window.location.href = 'login.html', 1500);
             return;
         }
 
@@ -89,7 +89,7 @@ function setupFormSubmit() {
             const cart = await cartResponse.json();
             
             if (cart.length === 0) {
-                alert('Корзина пуста! Добавьте товары для оформления заказа.');
+                showNotification('Корзина пуста! Добавьте товары для оформления заказа.', 'error');
                 return;
             }
             
@@ -105,30 +105,30 @@ function setupFormSubmit() {
             
             // Валидация
             if (!formData.name || !formData.phone || !formData.address) {
-                alert('Пожалуйста, заполните все обязательные поля (помечены *)');
+                showNotification('Пожалуйста, заполните все обязательные поля (помечены *)', 'error');
                 return;
             }
             
             // Валидация телефона (простая проверка)
             const phoneRegex = /^[\+]?[0-9\s\-\(\)]+$/;
             if (!phoneRegex.test(formData.phone.replace(/\s/g, ''))) {
-                alert('Введите корректный номер телефона');
+                showNotification('Введите корректный номер телефона', 'error');
                 return;
             }
             
             // Валидация email (если указан)
             if (formData.email && !isValidEmail(formData.email)) {
-                alert('Введите корректный email адрес');
+                showNotification('Введите корректный email адрес', 'error');
                 return;
             }
             
             // Подтверждение заказа
-            if (confirm('Подтвердить оформление заказа?')) {
+            showConfirmModal('Подтвердить оформление заказа?', async () => {
                 await processOrder(formData, cart);
-            }
+            });
         } catch (error) {
             console.error('Ошибка оформления заказа:', error);
-            alert('Произошла ошибка. Попробуйте позже.');
+            showNotification('Произошла ошибка. Попробуйте позже.', 'error');
         }
     });
 }
@@ -181,8 +181,68 @@ async function processOrder(formData, cart) {
         window.location.href = `order-success.html?id=${order.id}`;
     } catch (error) {
         console.error('Ошибка при оформлении заказа:', error);
-        alert('Произошла ошибка при оформлении заказа. Попробуйте еще раз.');
+        showNotification('Произошла ошибка при оформлении заказа. Попробуйте еще раз.', 'error');
     }
+}
+
+// Функция для показа модального окна подтверждения
+function showConfirmModal(message, onConfirm) {
+    const modal = document.createElement('div');
+    modal.className = 'confirm-modal-overlay';
+    modal.innerHTML = `
+        <div class="confirm-modal">
+            <h3>Подтверждение</h3>
+            <p>${message}</p>
+            <div class="confirm-modal-actions">
+                <button class="modal-btn modal-cancel" onclick="closeConfirmModal()">Отмена</button>
+                <button class="modal-btn modal-confirm" id="confirm-btn">Подтвердить</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    
+    document.getElementById('confirm-btn').onclick = () => {
+        closeConfirmModal();
+        onConfirm();
+    };
+    
+    // Закрытие по клику на overlay
+    modal.onclick = (e) => {
+        if (e.target === modal) {
+            closeConfirmModal();
+        }
+    };
+}
+
+function closeConfirmModal() {
+    const modal = document.querySelector('.confirm-modal-overlay');
+    if (modal) modal.remove();
+}
+
+// Функция для показа уведомлений
+function showNotification(message, type = 'success') {
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'error' ? 'linear-gradient(90deg, #ef4444, #dc2626)' : 'linear-gradient(90deg, #38bdf8, #a78bfa)'};
+        color: white;
+        padding: 15px 20px;
+        border-radius: 10px;
+        z-index: 10000;
+        animation: slideIn 0.3s ease;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
 }
 
 function saveOrder(order) {
