@@ -82,7 +82,7 @@ body {
     width: 64px;
     height: 64px;
     object-fit: contain;
-    transform: scale(1.8) translateX(-10px);
+    transform: scale(2.5) translateX(-15px);
     transform-origin: left center;
 }
 
