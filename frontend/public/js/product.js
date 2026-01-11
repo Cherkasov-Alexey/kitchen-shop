@@ -23,6 +23,7 @@ async function loadProductData() {
         }
         
         const product = await response.json();
+        window.currentProduct = product; // Сохраняем для доступа из других функций
         displayProduct(product);
         
     } catch (error) {
@@ -89,12 +90,15 @@ function displayProduct(product) {
         if (mainImage) {
             mainImage.src = product.images[0] + '?v=2';
             mainImage.alt = product.name || product.product_name;
+            // Добавляем обработчик клика для открытия lightbox
+            mainImage.style.cursor = 'pointer';
+            mainImage.onclick = () => openLightbox(product.images, 0);
         }
         
         const thumbsContainer = document.getElementById('gallery-thumbs');
         if (thumbsContainer) {
             thumbsContainer.innerHTML = product.images.map((img, index) => 
-                `<img src="${img}?v=2" alt="${product.name} ${index + 1}" class="${index === 0 ? 'thumb-active' : ''}" onclick="changeMainImage('${img}', '${product.name}')">`
+                `<img src="${img}?v=2" alt="${product.name} ${index + 1}" class="${index === 0 ? 'thumb-active' : ''}" onclick="changeMainImage('${img}', '${product.name}', ${index})">`
             ).join('');
         }
     }
@@ -135,12 +139,18 @@ function initProductGallery() {
 }
 
 // Смена основного изображения
-function changeMainImage(src, alt) {
+function changeMainImage(src, alt, index = 0) {
     const mainImage = document.getElementById('product-main-image');
     if (mainImage) {
         mainImage.src = src + '?v=2';
         if (alt) {
             mainImage.alt = alt;
+        }
+        
+        // Обновляем обработчик клика с правильным индексом
+        const product = window.currentProduct;
+        if (product && product.images) {
+            mainImage.onclick = () => openLightbox(product.images, index);
         }
         
         const thumbs = document.querySelectorAll('#gallery-thumbs img');
@@ -265,3 +275,84 @@ async function checkCartStatus() {
 // Делаем функции доступными глобально
 window.goToProduct = goToProduct;
 window.changeMainImage = changeMainImage;
+
+// ===== LIGHTBOX ДЛЯ ПРОСМОТРА ИЗОБРАЖЕНИЙ =====
+let currentImageIndex = 0;
+let productImages = [];
+
+function openLightbox(images, startIndex = 0) {
+    productImages = images;
+    currentImageIndex = startIndex;
+    
+    const overlay = document.createElement('div');
+    overlay.className = 'lightbox-overlay';
+    overlay.id = 'lightbox';
+    
+    overlay.innerHTML = `
+        <div class="lightbox-content">
+            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <button class="lightbox-arrow prev" onclick="prevImage()">&#8249;</button>
+            <img src="${productImages[currentImageIndex]}?v=2" alt="Изображение товара">
+            <button class="lightbox-arrow next" onclick="nextImage()">&#8250;</button>
+            <div class="lightbox-counter">${currentImageIndex + 1} / ${productImages.length}</div>
+        </div>
+    `;
+    
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
+    
+    // Закрытие по клику на фон
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            closeLightbox();
+        }
+    });
+    
+    // Управление клавиатурой
+    document.addEventListener('keydown', handleKeyPress);
+}
+
+function closeLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    if (lightbox) {
+        lightbox.remove();
+        document.body.style.overflow = '';
+        document.removeEventListener('keydown', handleKeyPress);
+    }
+}
+
+function nextImage() {
+    currentImageIndex = (currentImageIndex + 1) % productImages.length;
+    updateLightboxImage();
+}
+
+function prevImage() {
+    currentImageIndex = (currentImageIndex - 1 + productImages.length) % productImages.length;
+    updateLightboxImage();
+}
+
+function updateLightboxImage() {
+    const lightbox = document.getElementById('lightbox');
+    if (lightbox) {
+        const img = lightbox.querySelector('img');
+        const counter = lightbox.querySelector('.lightbox-counter');
+        img.src = productImages[currentImageIndex] + '?v=2';
+        counter.textContent = `${currentImageIndex + 1} / ${productImages.length}`;
+    }
+}
+
+function handleKeyPress(e) {
+    if (e.key === 'Escape') {
+        closeLightbox();
+    } else if (e.key === 'ArrowRight') {
+        nextImage();
+    } else if (e.key === 'ArrowLeft') {
+        prevImage();
+    }
+}
+
+// Делаем функции глобальными
+window.openLightbox = openLightbox;
+window.closeLightbox = closeLightbox;
+window.nextImage = nextImage;
+window.prevImage = prevImage;
