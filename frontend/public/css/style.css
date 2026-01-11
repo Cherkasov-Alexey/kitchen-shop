@@ -1945,16 +1945,16 @@ body.authenticated .user {
 
 .lightbox-content {
     position: relative;
-    max-width: 90%;
-    max-height: 90vh;
+    width: 800px;
+    height: 600px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .lightbox-content img {
-    max-width: 100%;
-    max-height: 90vh;
+    width: 800px;
+    height: 600px;
     object-fit: contain;
     border-radius: 8px;
     box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
@@ -1983,7 +1983,7 @@ body.authenticated .user {
 }
 
 .lightbox-arrow {
-    position: absolute;
+    position: fixed;
     background: rgba(56, 189, 248, 0.2);
     border: 2px solid rgba(56, 189, 248, 0.5);
     color: white;
@@ -1997,20 +1997,22 @@ body.authenticated .user {
     border-radius: 50%;
     transition: all 0.3s;
     backdrop-filter: blur(10px);
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .lightbox-arrow:hover {
     background: rgba(56, 189, 248, 0.4);
     border-color: #38bdf8;
-    transform: scale(1.1);
+    transform: translateY(-50%) scale(1.1);
 }
 
 .lightbox-arrow.prev {
-    left: 20px;
+    left: 40px;
 }
 
 .lightbox-arrow.next {
-    right: 20px;
+    right: 40px;
 }
 
 .lightbox-counter {
