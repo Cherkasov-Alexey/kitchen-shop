@@ -94,7 +94,7 @@ function displayProduct(product) {
         const thumbsContainer = document.getElementById('gallery-thumbs');
         if (thumbsContainer) {
             thumbsContainer.innerHTML = product.images.map((img, index) => 
-                `<img src="${img}?v=2" alt="${product.name} ${index + 1}" class="${index === 0 ? 'thumb-active' : ''}" onclick="changeMainImage('${img}', '${product.name}')"`
+                `<img src="${img}?v=2" alt="${product.name} ${index + 1}" class="${index === 0 ? 'thumb-active' : ''}" onclick="changeMainImage('${img}', '${product.name}')">`
             ).join('');
         }
     }
