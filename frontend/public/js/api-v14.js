@@ -79,11 +79,12 @@ class UIUtils {
         const hasDiscount = product.old_price && product.old_price > product.price;
         const isFavorite = this.isFavorite(product.id);
         const imageUrl = product.image_url || product.images?.split(',')[0] || '';
+        const imageUrlWithCache = imageUrl ? `${imageUrl}?v=2` : '';
         return `
             <div class="product-card" onclick="window.location.href='product.html?id=${product.id}'">
                 ${hasDiscount ? '<span class="sale-badge">СКИДКА</span>' : ''}
                 <div class="product-image">
-                    <img src="${imageUrl}" alt="${product.product_name}">
+                    <img src="${imageUrlWithCache}" alt="${product.product_name}">
                 </div>
                 <div class="product-info">
                     <h3>${product.product_name}</h3>

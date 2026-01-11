@@ -166,8 +166,11 @@ async function renderCart() {
             cartItem.className = 'cart-item';
             cartItem.dataset.id = item.id;
             
+            const imageUrl = item.image_url || item.images?.split(',')[0] || '';
+            const imageUrlWithCache = imageUrl ? `${imageUrl}?v=2` : '';
+            
             cartItem.innerHTML = `
-                <img src="${item.image_url || item.images?.split(',')[0] || ''}" alt="${item.product_name}" style="width: 80px; height: 80px; object-fit: contain;">
+                <img src="${imageUrlWithCache}" alt="${item.product_name}" style="width: 80px; height: 80px; object-fit: contain;">
                 <div class="cart-info">
                     <h3>${item.product_name}</h3>
                     <p>Артикул: SC-${item.id.toString().padStart(3, '0')}</p>

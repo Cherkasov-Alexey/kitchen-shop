@@ -87,14 +87,14 @@ function displayProduct(product) {
     if (product.images && product.images.length > 0) {
         const mainImage = document.getElementById('product-main-image');
         if (mainImage) {
-            mainImage.src = product.images[0];
+            mainImage.src = product.images[0] + '?v=2';
             mainImage.alt = product.name || product.product_name;
         }
         
         const thumbsContainer = document.getElementById('gallery-thumbs');
         if (thumbsContainer) {
             thumbsContainer.innerHTML = product.images.map((img, index) => 
-                `<img src="${img}" alt="${product.name} ${index + 1}" class="${index === 0 ? 'thumb-active' : ''}" onclick="changeMainImage('${img}', '${product.name}')">`
+                `<img src="${img}?v=2" alt="${product.name} ${index + 1}" class="${index === 0 ? 'thumb-active' : ''}" onclick="changeMainImage('${img}', '${product.name}')"`
             ).join('');
         }
     }
@@ -138,7 +138,7 @@ function initProductGallery() {
 function changeMainImage(src, alt) {
     const mainImage = document.getElementById('product-main-image');
     if (mainImage) {
-        mainImage.src = src;
+        mainImage.src = src + '?v=2';
         if (alt) {
             mainImage.alt = alt;
         }
@@ -146,7 +146,7 @@ function changeMainImage(src, alt) {
         const thumbs = document.querySelectorAll('#gallery-thumbs img');
         thumbs.forEach(thumb => {
             thumb.classList.remove('thumb-active');
-            if (thumb.src === src) {
+            if (thumb.src.includes(src)) {
                 thumb.classList.add('thumb-active');
             }
         });
