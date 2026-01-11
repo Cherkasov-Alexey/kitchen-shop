@@ -1945,16 +1945,16 @@ body.authenticated .user {
 
 .lightbox-content {
     position: relative;
-    width: 800px;
-    height: 600px;
+    width: 600px;
+    height: 450px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .lightbox-content img {
-    width: 800px;
-    height: 600px;
+    width: 600px;
+    height: 450px;
     object-fit: contain;
     border-radius: 8px;
     box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
@@ -1962,8 +1962,8 @@ body.authenticated .user {
 
 .lightbox-close {
     position: absolute;
-    top: -50px;
-    right: 0;
+    top: -30px;
+    right: -50px;
     background: transparent;
     border: none;
     color: white;
@@ -2017,13 +2017,13 @@ body.authenticated .user {
 
 .lightbox-counter {
     position: absolute;
-    bottom: -50px;
+    bottom: -35px;
     left: 50%;
     transform: translateX(-50%);
     color: white;
-    font-size: 16px;
+    font-size: 13px;
     background: rgba(56, 189, 248, 0.2);
-    padding: 8px 20px;
+    padding: 6px 16px;
     border-radius: 20px;
     backdrop-filter: blur(10px);
 }
