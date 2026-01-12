@@ -201,15 +201,17 @@ if (orderId) {
             // Заполняем информацию о заказе
             document.getElementById('order-number').textContent = '#' + order.id;
             
-            // Форматируем дату (в БД уже московское время, парсим как UTC чтобы избежать двойного смещения)
-            const orderDate = new Date(order.created_at + 'Z');
-            document.getElementById('order-date').textContent = orderDate.toLocaleDateString('ru-RU', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
+            // Форматируем дату (в БД уже сохранено московское время, отображаем как есть)
+            const dateStr = order.created_at.replace(' ', 'T'); // PostgreSQL может вернуть "2026-01-12 14:40:30"
+            const orderDate = new Date(dateStr);
+            const day = String(orderDate.getDate()).padStart(2, '0');
+            const month = String(orderDate.getMonth() + 1).padStart(2, '0');
+            const year = orderDate.getFullYear();
+            const hours = String(orderDate.getHours()).padStart(2, '0');
+            const minutes = String(orderDate.getMinutes()).padStart(2, '0');
+            
+            const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+            document.getElementById('order-date').textContent = `${day} ${months[orderDate.getMonth()]} ${year} г. в ${hours}:${minutes}`;
             
             document.getElementById('order-total').textContent = order.total.toLocaleString() + ' ₽';
             
