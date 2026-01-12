@@ -104,7 +104,7 @@ function setupFormSubmit() {
             };
             
             // Валидация
-            if (!formData.name || !formData.phone || !formData.address) {
+            if (!formData.name || !formData.phone || !formData.email || !formData.address) {
                 showNotification('Пожалуйста, заполните все обязательные поля (помечены *)', 'error');
                 return;
             }
@@ -116,8 +116,8 @@ function setupFormSubmit() {
                 return;
             }
             
-            // Валидация email (если указан)
-            if (formData.email && !isValidEmail(formData.email)) {
+            // Валидация email
+            if (!isValidEmail(formData.email)) {
                 showNotification('Введите корректный email адрес', 'error');
                 return;
             }
