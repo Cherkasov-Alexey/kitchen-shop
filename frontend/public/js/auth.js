@@ -54,6 +54,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
+            if (password.length < 6) {
+                showError('Пароль должен содержать минимум 6 символов');
+                return;
+            }
+            
             try {
                 const response = await fetch(`${API_BASE_URL}/auth/register`, {
                     method: 'POST',

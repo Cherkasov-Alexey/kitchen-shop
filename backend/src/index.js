@@ -176,6 +176,10 @@ app.post('/api/auth/register', async (req, res) => {
             return res.status(400).json({ error: 'Все поля обязательны' });
         }
         
+        if (password.length < 6) {
+            return res.status(400).json({ error: 'Пароль должен содержать минимум 6 символов' });
+        }
+        
         // Проверяем, существует ли пользователь
         const [existing] = await db.execute('SELECT id FROM users WHERE email = ?', [email]);
         if (existing.length > 0) {
