@@ -201,8 +201,8 @@ if (orderId) {
             // Заполняем информацию о заказе
             document.getElementById('order-number').textContent = '#' + order.id;
             
-            // Форматируем дату
-            const orderDate = new Date(order.created_at);
+            // Форматируем дату (в БД уже московское время, парсим как UTC чтобы избежать двойного смещения)
+            const orderDate = new Date(order.created_at + 'Z');
             document.getElementById('order-date').textContent = orderDate.toLocaleDateString('ru-RU', {
                 year: 'numeric',
                 month: 'long',
