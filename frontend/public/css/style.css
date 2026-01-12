@@ -29,12 +29,12 @@ body.authenticated .auth-actions.guest {
 
 :root {
     /* Средне-серая цветовая палитра */
-    --bg-900: #1e293b; /* средне-тёмный фон */
-    --bg-800: #334155; /* тёмно-серый */
-    --accent-magenta: #ec4899; /* розовый акцент */
-    --accent-cyan: #06b6d4; /* голубой акцент */
-    --focus: #0ea5e9; /* синий фокус */
-    --muted: #cbd5e1; /* светло-серый текст */
+    --bg-900: #1e293b; 
+    --bg-800: #334155;
+    --accent-magenta: #ec4899;
+    --accent-cyan: #06b6d4; 
+    --focus: #0ea5e9; 
+    --muted: #cbd5e1; 
     --muted-2: rgba(203,213,225,0.8);
     --card-bg: rgba(30,41,59,0.95);
     --glass: rgba(6,182,212,0.08);

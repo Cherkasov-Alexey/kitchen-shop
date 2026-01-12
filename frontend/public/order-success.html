@@ -179,22 +179,60 @@
     <p class="footer-copy">© 2025 SmartCook. Все права защищены.</p>
 </footer>
 
+<script src="js/config.js"></script>
 <script>
 // Получаем ID заказа из URL
 const urlParams = new URLSearchParams(window.location.search);
 const orderId = urlParams.get('id');
 
 if (orderId) {
-    // Находим заказ в LocalStorage
-    const orders = JSON.parse(localStorage.getItem('orders')) || [];
-    const order = orders.find(o => o.id == orderId);
-    
-    if (order) {
-        // Заполняем информацию о заказе
-        document.getElementById('order-number').textContent = order.number;
-        document.getElementById('order-date').textContent = order.date;
-        document.getElementById('order-total').textContent = order.total.toLocaleString() + ' ₽';
-    }
+    console.log('Загружаю данные заказа:', orderId);
+    // Загружаем данные заказа с сервера
+    fetch(`${API_BASE_URL}/orders/detail/${orderId}`)
+        .then(response => {
+            console.log('Ответ сервера:', response.status);
+            if (!response.ok) {
+                throw new Error('Заказ не найден');
+            }
+            return response.json();
+        })
+        .then(order => {
+            console.log('Полученные данные заказа:', order);
+            // Заполняем информацию о заказе
+            document.getElementById('order-number').textContent = '#' + order.id;
+            
+            // Форматируем дату
+            const orderDate = new Date(order.created_at);
+            document.getElementById('order-date').textContent = orderDate.toLocaleDateString('ru-RU', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            document.getElementById('order-total').textContent = order.total.toLocaleString() + ' ₽';
+            
+            // Обновляем статус
+            const statusElement = document.getElementById('order-status');
+            const statusMap = {
+                'pending': { text: 'Ожидает оплаты', color: '#fbbf24' },
+                'processing': { text: 'В обработке', color: '#38bdf8' },
+                'completed': { text: 'Выполнен', color: '#10b981' },
+                'cancelled': { text: 'Отменён', color: '#ef4444' }
+            };
+            
+            const status = statusMap[order.status] || statusMap['pending'];
+            statusElement.textContent = status.text;
+            statusElement.style.color = status.color;
+        })
+        .catch(error => {
+            console.error('Ошибка загрузки заказа:', error);
+            document.querySelector('.order-details').innerHTML = '<p style="color: #ef4444; text-align: center;">Не удалось загрузить информацию о заказе</p>';
+        });
+} else {
+    // Если нет ID в URL, показываем ошибку
+    document.querySelector('.order-details').innerHTML = '<p style="color: #ef4444; text-align: center;">Заказ не найден</p>';
 }
 </script>
 

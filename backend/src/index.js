@@ -517,10 +517,11 @@ app.post('/api/orders', async (req, res) => {
         const [orderResult] = await db.execute(`
             INSERT INTO orders (user_id, total, status, delivery_address, payment_method, comment, customer_name, customer_phone, customer_email)
             VALUES (?, ?, 'pending', ?, ?, ?, ?, ?, ?)
-            RETURNING id
+            RETURNING *
         `, [user_id, total, delivery_address, payment_method, comment || null, customer_name, customer_phone, customer_email || null]);
 
         const orderId = orderResult[0].id;
+        console.log('Создан заказ с ID:', orderId);
 
         // Добавляем товары в order_items
         for (const item of cartItems) {

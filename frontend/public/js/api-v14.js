@@ -1,10 +1,8 @@
 // Простой API клиент для SmartCook
 class SmartCookAPI {
     constructor() {
-        // Автоматически определяем URL: локально или на Render
-        this.baseURL = window.location.hostname === 'localhost' 
-            ? 'http://localhost:3000/api'
-            : `${window.location.origin}/api`;
+        // Используем текущий origin для API
+        this.baseURL = `${window.location.origin}/api`;
     }
 
     async getCategories() {
