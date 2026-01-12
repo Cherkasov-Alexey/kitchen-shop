@@ -49,6 +49,13 @@
 
         <button class="logout-btn" id="logout-btn">Выйти</button>
     </div>
+
+    <div class="orders-section">
+        <h2>История заказов</h2>
+        <div id="orders-container">
+            <p class="loading-text">Загрузка заказов...</p>
+        </div>
+    </div>
 </main>
 
 <footer class="footer">
@@ -90,7 +97,7 @@
 <script src="js/main.js?v=16"></script>
 <script>
 // Динамическая загрузка данных пользователя
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     
     if (currentUser) {
@@ -114,6 +121,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (profileName) {
             profileName.textContent = currentUser.user_name;
         }
+
+        // Загружаем историю заказов
+        await loadOrderHistory(currentUser.id);
     } else {
         // Если пользователь не авторизован, перенаправляем на вход
         window.location.href = 'login.html';
@@ -128,6 +138,101 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// Функция загрузки истории заказов
+async function loadOrderHistory(userId) {
+    const container = document.getElementById('orders-container');
+    
+    try {
+        const response = await fetch(`${API_BASE_URL}/orders/${userId}`);
+        
+        if (!response.ok) {
+            throw new Error('Ошибка загрузки заказов');
+        }
+        
+        const orders = await response.json();
+        
+        if (orders.length === 0) {
+            container.innerHTML = '<p class="no-orders">У вас пока нет заказов</p>';
+            return;
+        }
+        
+        // Отображаем заказы
+        container.innerHTML = orders.map(order => {
+            const statusClass = getStatusClass(order.status);
+            const statusText = getStatusText(order.status);
+            
+            // Форматируем дату заказа
+            const match = order.created_at.match(/(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2}):(\d{2})/);
+            let formattedDate = 'Неизвестно';
+            if (match) {
+                const [, year, month, day, hours, minutes] = match;
+                const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+                const monthName = months[parseInt(month) - 1];
+                formattedDate = `${parseInt(day)} ${monthName} ${year} г. в ${hours}:${minutes}`;
+            }
+            
+            // Формируем список товаров
+            const itemsList = order.items.map(item => `
+                <div class="order-item">
+                    <img src="${item.image_url || 'images/placeholder.jpg'}" alt="${item.product_name}">
+                    <div class="order-item-info">
+                        <p class="order-item-name">${item.product_name}</p>
+                        <p class="order-item-quantity">${item.quantity} шт. × ${parseFloat(item.price).toFixed(2)} ₽</p>
+                    </div>
+                    <p class="order-item-total">${(item.quantity * parseFloat(item.price)).toFixed(2)} ₽</p>
+                </div>
+            `).join('');
+            
+            return `
+                <div class="order-card">
+                    <div class="order-header">
+                        <div class="order-info">
+                            <h3>Заказ #${order.id}</h3>
+                            <p class="order-date">${formattedDate}</p>
+                        </div>
+                        <span class="order-status ${statusClass}">${statusText}</span>
+                    </div>
+                    
+                    <div class="order-items">
+                        ${itemsList}
+                    </div>
+                    
+                    <div class="order-footer">
+                        <p class="order-total">Итого: <strong>${parseFloat(order.total).toFixed(2)} ₽</strong></p>
+                        <a href="order-success.html?orderId=${order.id}" class="order-detail-btn">Подробнее</a>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+    } catch (error) {
+        console.error('Ошибка загрузки истории заказов:', error);
+        container.innerHTML = '<p class="error-text">Не удалось загрузить историю заказов</p>';
+    }
+}
+
+// Функция определения класса статуса
+function getStatusClass(status) {
+    const statusMap = {
+        'pending': 'status-pending',
+        'processing': 'status-processing',
+        'completed': 'status-completed',
+        'cancelled': 'status-cancelled'
+    };
+    return statusMap[status] || 'status-pending';
+}
+
+// Функция определения текста статуса
+function getStatusText(status) {
+    const statusMap = {
+        'pending': 'Ожидает оплаты',
+        'processing': 'В обработке',
+        'completed': 'Выполнен',
+        'cancelled': 'Отменён'
+    };
+    return statusMap[status] || status;
+}
 </script>
 
 </body>

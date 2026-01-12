@@ -33,3 +33,217 @@
     transform: translateY(-2px);
     box-shadow: 0 0 20px rgba(255,0,128,0.6), 0 0 40px rgba(0,255,255,0.4);
 }
+
+/* История заказов */
+.orders-section {
+    margin-top: 40px;
+}
+
+.orders-section h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #00ffff;
+}
+
+#orders-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.loading-text, .no-orders, .error-text {
+    text-align: center;
+    padding: 40px;
+    color: #888;
+    font-size: 16px;
+}
+
+.error-text {
+    color: #ff4444;
+}
+
+/* Карточка заказа */
+.order-card {
+    background: rgba(16,16,30,0.9);
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 0 30px rgba(0,255,255,0.2), 0 8px 20px rgba(0,0,0,0.3);
+    border: 2px solid rgba(0,255,255,0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.order-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 40px rgba(0,255,255,0.3), 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(0,255,255,0.2);
+}
+
+.order-info h3 {
+    margin: 0 0 5px 0;
+    font-size: 20px;
+    color: #00ffff;
+}
+
+.order-date {
+    margin: 0;
+    font-size: 14px;
+    color: #888;
+}
+
+.order-status {
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-pending {
+    background: rgba(255, 165, 0, 0.2);
+    color: #ffa500;
+    border: 1px solid #ffa500;
+}
+
+.status-processing {
+    background: rgba(0, 191, 255, 0.2);
+    color: #00bfff;
+    border: 1px solid #00bfff;
+}
+
+.status-completed {
+    background: rgba(0, 255, 0, 0.2);
+    color: #00ff00;
+    border: 1px solid #00ff00;
+}
+
+.status-cancelled {
+    background: rgba(255, 0, 0, 0.2);
+    color: #ff4444;
+    border: 1px solid #ff4444;
+}
+
+/* Товары в заказе */
+.order-items {
+    margin: 20px 0;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.order-item:last-child {
+    margin-bottom: 0;
+}
+
+.order-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.order-item-info {
+    flex: 1;
+}
+
+.order-item-name {
+    margin: 0 0 5px 0;
+    font-size: 15px;
+    color: #fff;
+    font-weight: 500;
+}
+
+.order-item-quantity {
+    margin: 0;
+    font-size: 13px;
+    color: #888;
+}
+
+.order-item-total {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #00ffff;
+    min-width: 120px;
+    text-align: right;
+}
+
+/* Подвал карточки заказа */
+.order-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(0,255,255,0.2);
+}
+
+.order-total {
+    margin: 0;
+    font-size: 18px;
+    color: #fff;
+}
+
+.order-total strong {
+    color: #00ffff;
+    font-size: 20px;
+}
+
+.order-detail-btn {
+    padding: 10px 24px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #ff0080, #00ffff);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-block;
+}
+
+.order-detail-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(255,0,128,0.6), 0 0 40px rgba(0,255,255,0.4);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .order-footer {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+    
+    .order-detail-btn {
+        text-align: center;
+    }
+    
+    .order-item {
+        flex-wrap: wrap;
+    }
+    
+    .order-item-total {
+        width: 100%;
+        text-align: left;
+        margin-top: 5px;
+    }
+}
