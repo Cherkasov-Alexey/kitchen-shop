@@ -16,7 +16,8 @@ async function loadSaleProducts() {
     UIUtils.showLoading(container);
     
     try {
-        const products = await api.getProducts({ sale: 'true', limit: 3 });
+        const response = await api.getProducts({ sale: 'true', limit: 3 });
+        const products = response.products || response; // Поддержка старого и нового формата
         
         if (products.length === 0) {
             container.innerHTML = `

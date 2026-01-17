@@ -103,7 +103,7 @@ app.get('/api/categories', async (req, res) => {
 // API: Получить все товары или с фильтрами
 app.get('/api/products', async (req, res) => {
     try {
-        const { category_id, sale, featured, limit } = req.query;
+        const { category_id, sale, featured, limit, offset } = req.query;
         let query = 'SELECT * FROM products WHERE 1=1';
         let params = [];
 
@@ -120,22 +120,45 @@ app.get('/api/products', async (req, res) => {
             query += ' AND old_price IS NOT NULL';
         }
 
+        // Добавляем пагинацию в SQL запрос
+        const limitValue = limit ? parseInt(limit) : 12; // По умолчанию 12 товаров
+        const offsetValue = offset ? parseInt(offset) : 0;
+        
+        query += ' LIMIT ? OFFSET ?';
+        params.push(limitValue, offsetValue);
+
         const [products] = await db.execute(query, params);
         
-        // Применяем LIMIT после получения результатов
-        let result = products;
-        if (limit) {
-            result = products.slice(0, parseInt(limit));
+        // Получаем общее количество товаров для пагинации
+        let countQuery = 'SELECT COUNT(*) as total FROM products WHERE 1=1';
+        let countParams = [];
+        if (category_id) {
+            countQuery += ' AND category_id = ?';
+            countParams.push(category_id);
         }
+        if (sale === 'true') {
+            countQuery += ' AND old_price IS NOT NULL';
+        }
+        if (featured === 'true') {
+            countQuery += ' AND old_price IS NOT NULL';
+        }
+        const [countResult] = await db.execute(countQuery, countParams);
+        const total = countResult[0].total;
         
         // Преобразуем строку images в массив
-        const productsWithImages = result.map(product => ({
+        const productsWithImages = products.map(product => ({
             ...product,
             images: product.images ? product.images.split(',') : [],
             image_url: product.images ? product.images.split(',')[0] : null
         }));
 
-        res.json(productsWithImages);
+        res.json({
+            products: productsWithImages,
+            total: total,
+            limit: limitValue,
+            offset: offsetValue,
+            hasMore: (offsetValue + productsWithImages.length) < total
+        });
     } catch (error) {
         console.error('Ошибка получения товаров:', error);
         res.status(500).json({ error: 'Ошибка сервера' });

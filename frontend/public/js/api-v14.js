@@ -26,7 +26,7 @@ class SmartCookAPI {
             return await response.json();
         } catch (error) {
             console.error('Ошибка загрузки товаров:', error);
-            return [];
+            return { products: [], total: 0, hasMore: false };
         }
     }
 

@@ -1,13 +1,20 @@
 // Каталог товаров
+let currentCategoryId = null;
+let currentOffset = 0;
+let isLoading = false;
+let hasMoreProducts = true;
+const PRODUCTS_PER_PAGE = 12;
+
 document.addEventListener('DOMContentLoaded', async () => {
     await loadCatalogCategories();
     
     // Проверяем параметр category в URL
     const urlParams = new URLSearchParams(window.location.search);
-    const categoryId = urlParams.get('category');
+    currentCategoryId = urlParams.get('category');
     
-    await loadCatalogProducts(categoryId);
+    await loadCatalogProducts(currentCategoryId, false);
     initFilters();
+    initInfiniteScroll();
     
     // Обновляем счетчик корзины и кнопки при загрузке
     if (typeof updateCartCount !== 'undefined') {
@@ -45,28 +52,64 @@ async function loadCatalogCategories() {
 }
 
 // Загрузка всех товаров
-async function loadCatalogProducts(categoryId = null) {
+async function loadCatalogProducts(categoryId = null, append = false) {
     const container = document.getElementById('products-container');
     if (!container) return;
     
-    UIUtils.showLoading(container);
+    if (isLoading) return;
+    isLoading = true;
+    
+    // Показываем индикатор загрузки
+    if (!append) {
+        UIUtils.showLoading(container);
+        currentOffset = 0;
+    } else {
+        // Добавляем индикатор в конец списка
+        const loader = document.createElement('div');
+        loader.className = 'loading-more';
+        loader.textContent = 'Загрузка...';
+        loader.id = 'loading-more-indicator';
+        container.appendChild(loader);
+    }
     
     try {
-        const params = {};
+        const params = {
+            limit: PRODUCTS_PER_PAGE,
+            offset: currentOffset
+        };
+        
         if (categoryId && categoryId !== 'all') {
             params.category_id = categoryId;
         }
         
-        const products = await api.getProducts(params);
+        const response = await api.getProducts(params);
+        const products = response.products || response; // Поддержка старого и нового формата
+        hasMoreProducts = response.hasMore !== undefined ? response.hasMore : false;
         
-        if (products.length === 0) {
+        // Удаляем индикатор загрузки
+        const loadingIndicator = document.getElementById('loading-more-indicator');
+        if (loadingIndicator) {
+            loadingIndicator.remove();
+        }
+        
+        if (products.length === 0 && !append) {
             container.innerHTML = '<p class="no-products">Товары не найдены</p>';
+            hasMoreProducts = false;
+            isLoading = false;
             return;
         }
 
-        container.innerHTML = products.map(product => 
+        const productsHTML = products.map(product => 
             UIUtils.createProductCard(product)
         ).join('');
+        
+        if (append) {
+            container.insertAdjacentHTML('beforeend', productsHTML);
+        } else {
+            container.innerHTML = productsHTML;
+        }
+        
+        currentOffset += products.length;
         
         // Обновляем состояние кнопок избранного после рендера
         if (typeof updateAllFavoriteButtons !== 'undefined') {
@@ -80,8 +123,30 @@ async function loadCatalogProducts(categoryId = null) {
         
     } catch (error) {
         console.error('Ошибка загрузки товаров:', error);
-        UIUtils.showError(container, 'Ошибка загрузки товаров');
+        if (!append) {
+            UIUtils.showError(container, 'Ошибка загрузки товаров');
+        }
+    } finally {
+        isLoading = false;
     }
+}
+
+// Инициализация бесконечного скроллинга
+function initInfiniteScroll() {
+    let scrollTimeout;
+    
+    window.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            const scrollPosition = window.innerHeight + window.scrollY;
+            const pageHeight = document.documentElement.scrollHeight;
+            
+            // Если докрутили почти до конца (осталось 300px)
+            if (scrollPosition >= pageHeight - 300 && hasMoreProducts && !isLoading) {
+                loadCatalogProducts(currentCategoryId, true);
+            }
+        }, 100);
+    });
 }
 
 // Инициализация фильтров
@@ -97,9 +162,12 @@ function initFilters() {
             // Добавляем активный класс на нажатую кнопку
             e.target.classList.add('active');
             
-            // Загружаем товары по категории
+            // Сбрасываем пагинацию и загружаем товары по категории
             const categoryId = e.target.dataset.category;
-            loadCatalogProducts(categoryId);
+            currentCategoryId = categoryId;
+            currentOffset = 0;
+            hasMoreProducts = true;
+            loadCatalogProducts(categoryId, false);
         }
     });
     

@@ -2301,3 +2301,35 @@ body.authenticated .user {
         padding: 20px 16px;
     }
 }
+
+/* ===== INFINITE SCROLL LOADING ===== */
+.loading-more {
+    text-align: center;
+    padding: 30px;
+    color: var(--muted);
+    font-size: 16px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--muted);
+    font-size: 18px;
+}
+
+.no-products {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+    font-size: 18px;
+}

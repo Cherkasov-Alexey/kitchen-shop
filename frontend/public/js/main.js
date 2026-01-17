@@ -50,7 +50,8 @@ async function loadFeaturedProducts() {
     UIUtils.showLoading(container);
     
     try {
-        const products = await api.getProducts({ featured: true, limit: 3 });
+        const response = await api.getProducts({ featured: true, limit: 3 });
+        const products = response.products || response; // Поддержка старого и нового формата
         
         if (products.length === 0) {
             UIUtils.showError(container, 'Популярные товары не найдены');
