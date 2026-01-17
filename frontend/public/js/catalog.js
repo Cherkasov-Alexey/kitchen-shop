@@ -143,18 +143,25 @@ async function loadCatalogProducts(categoryId = null, append = false) {
 // Инициализация бесконечного скроллинга
 function initInfiniteScroll() {
     let scrollTimeout;
+    let lastLoadTime = 0;
+    const MIN_LOAD_INTERVAL = 1500; // Минимум 1.5 секунды между подгрузками
     
     window.addEventListener('scroll', () => {
         clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {
             const scrollPosition = window.innerHeight + window.scrollY;
             const pageHeight = document.documentElement.scrollHeight;
+            const currentTime = Date.now();
             
-            // Если докрутили почти до конца (осталось 300px)
-            if (scrollPosition >= pageHeight - 300 && hasMoreProducts && !isLoading) {
+            // Если докрутили до конца (осталось меньше 100px) и прошло достаточно времени
+            if (scrollPosition >= pageHeight - 100 && 
+                hasMoreProducts && 
+                !isLoading &&
+                (currentTime - lastLoadTime) >= MIN_LOAD_INTERVAL) {
+                lastLoadTime = currentTime;
                 loadCatalogProducts(currentCategoryId, true);
             }
-        }, 100);
+        }, 200); // Увеличена задержка обработки скролла
     });
 }
 
