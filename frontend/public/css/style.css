@@ -48,9 +48,7 @@ body {
         radial-gradient(circle at bottom right, rgba(6,182,212,0.15), transparent 40%),
         linear-gradient(135deg, #0f172a, #1e293b);
     color: var(--muted);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    padding-bottom: 350px; /* Отступ снизу для футера */
 }
 
 /* ===== ШАПКА ===== */
@@ -470,8 +468,6 @@ body.authenticated .user {
     gap: 30px;
     padding: 40px;
     background: linear-gradient(135deg, #2a2a40, #3a2a5e);
-    flex: 1; /* Занимает оставшееся пространство */
-    min-height: calc(100vh - 200px); /* Минимальная высота для контента */
 }
 
 /* ЛЕВАЯ КОЛОНКА */
@@ -515,6 +511,8 @@ body.authenticated .user {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 25px;
+    position: relative;
+    z-index: 2; /* Товары выше футера */
 }
 
 /* ===== КАРТОЧКА ТОВАРА ===== */
@@ -1392,11 +1390,15 @@ body.authenticated .user {
 
 /* ===== ФУТЕР ===== */
 .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
     padding: 80px 50px 40px;
     background:
         linear-gradient(180deg, rgba(56,189,248,0.1), #0f172a);
     border-top: 1px solid rgba(6,182,212,0.2);
-    margin-top: auto; /* Прижимает футер к низу */
+    z-index: 1;
 }
 
 .footer-content {
