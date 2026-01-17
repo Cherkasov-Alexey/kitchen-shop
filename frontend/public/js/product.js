@@ -218,7 +218,8 @@ async function loadRelatedProducts() {
         const response = await fetch('/api/products?limit=10');
         if (!response.ok) throw new Error('Ошибка загрузки товаров');
         
-        let products = await response.json();
+        const data = await response.json();
+        let products = data.products || data; // Поддержка нового и старого формата API
         
         // Исключаем текущий товар и берем первые 3
         products = products.filter(p => p.id !== currentProductId).slice(0, 3);
