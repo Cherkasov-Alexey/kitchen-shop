@@ -48,6 +48,9 @@ body {
         radial-gradient(circle at bottom right, rgba(6,182,212,0.15), transparent 40%),
         linear-gradient(135deg, #0f172a, #1e293b);
     color: var(--muted);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 /* ===== ШАПКА ===== */
@@ -467,6 +470,8 @@ body.authenticated .user {
     gap: 30px;
     padding: 40px;
     background: linear-gradient(135deg, #2a2a40, #3a2a5e);
+    flex: 1; /* Занимает оставшееся пространство */
+    min-height: calc(100vh - 200px); /* Минимальная высота для контента */
 }
 
 /* ЛЕВАЯ КОЛОНКА */
@@ -1391,6 +1396,7 @@ body.authenticated .user {
     background:
         linear-gradient(180deg, rgba(56,189,248,0.1), #0f172a);
     border-top: 1px solid rgba(6,182,212,0.2);
+    margin-top: auto; /* Прижимает футер к низу */
 }
 
 .footer-content {
