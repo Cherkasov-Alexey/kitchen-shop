@@ -121,7 +121,7 @@ app.get('/api/products', async (req, res) => {
         }
 
         // Добавляем пагинацию в SQL запрос
-        const limitValue = limit ? parseInt(limit) : 12; // По умолчанию 12 товаров
+        const limitValue = limit ? parseInt(limit) : 3; // По умолчанию 3 товара для демонстрации
         const offsetValue = offset ? parseInt(offset) : 0;
         
         query += ' LIMIT ? OFFSET ?';

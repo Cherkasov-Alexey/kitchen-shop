@@ -3,7 +3,7 @@ let currentCategoryId = null;
 let currentOffset = 0;
 let isLoading = false;
 let hasMoreProducts = true;
-const PRODUCTS_PER_PAGE = 12;
+const PRODUCTS_PER_PAGE = 3; // Показываем по 3 товара для демонстрации бесконечного скроллинга
 
 document.addEventListener('DOMContentLoaded', async () => {
     await loadCatalogCategories();
