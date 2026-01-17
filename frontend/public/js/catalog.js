@@ -4,6 +4,7 @@ let currentOffset = 0;
 let isLoading = false;
 let hasMoreProducts = true;
 const PRODUCTS_PER_PAGE = 3; // Показываем по 3 товара для демонстрации бесконечного скроллинга
+const INITIAL_LOAD = 9; // Первая загрузка - все товары
 
 document.addEventListener('DOMContentLoaded', async () => {
     await loadCatalogCategories();
@@ -74,8 +75,8 @@ async function loadCatalogProducts(categoryId = null, append = false) {
     
     try {
         const params = {
-            limit: PRODUCTS_PER_PAGE,
-            offset: currentOffset
+            limit: append ? PRODUCTS_PER_PAGE : INITIAL_LOAD, // Первая загрузка - все, потом по 3
+            offset: append ? currentOffset : 0 // При дозагрузке используем циклический offset
         };
         
         if (categoryId && categoryId !== 'all') {
@@ -83,8 +84,11 @@ async function loadCatalogProducts(categoryId = null, append = false) {
         }
         
         const response = await api.getProducts(params);
-        const products = response.products || response; // Поддержка старого и нового формата
-        hasMoreProducts = response.hasMore !== undefined ? response.hasMore : false;
+        const products = response.products || response;
+        const totalProducts = response.total || 9; // Общее количество товаров
+        
+        // Для бесконечного скроллинга всегда есть еще товары
+        hasMoreProducts = true;
         
         // Удаляем индикатор загрузки
         const loadingIndicator = document.getElementById('loading-more-indicator');
@@ -109,7 +113,12 @@ async function loadCatalogProducts(categoryId = null, append = false) {
             container.innerHTML = productsHTML;
         }
         
-        currentOffset += products.length;
+        // Обновляем offset циклически
+        if (append) {
+            currentOffset = (currentOffset + products.length) % totalProducts;
+        } else {
+            currentOffset = INITIAL_LOAD % totalProducts; // После первой загрузки начинаем с начала
+        }
         
         // Обновляем состояние кнопок избранного после рендера
         if (typeof updateAllFavoriteButtons !== 'undefined') {
